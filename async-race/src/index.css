@@ -1,3 +1,7 @@
+:root {
+  --main-color: #000;
+}
+
 body {
-  border-color: green;
+  margin: 0;
 }
