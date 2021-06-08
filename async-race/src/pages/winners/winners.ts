@@ -1,5 +1,5 @@
-import { ClassesConstants } from '../../constants/classes.constants';
-import { Component } from '../../interfaces';
+import { ClassesConstants } from '../../shared/constants/classes.constants';
+import { Component } from '../../shared/interfaces';
 import './winners.css';
 
 export class Winners implements Component {

@@ -1,7 +1,7 @@
-import { PathsConstants } from '../shared/constants/paths.constants';
+import { PathsConstants } from '../constants/paths.constants';
 import {
   Route, RouteCb, RoutePath, RouterProps,
-} from '../shared/interfaces';
+} from '../interfaces';
 
 export class Router {
   routes: Route[] = [];

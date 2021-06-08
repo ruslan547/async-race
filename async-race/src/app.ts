@@ -1,11 +1,11 @@
 import './app.css';
-import { Router } from './services/router.service';
+import { Router } from './shared/services/router.service';
 import { ClassesConstants } from './shared/constants/classes.constants';
 import { PathsConstants } from './shared/constants/paths.constants';
 import { SettingsConstants } from './shared/constants/settings.constants';
 import { Component } from './shared/interfaces';
-import { Garage } from './shared/pages/garage/garage';
-import { Winners } from './shared/pages/winners/winners';
+import { Garage } from './pages/garage/garage';
+import { Winners } from './pages/winners/winners';
 
 export class App implements Component {
   private app = document.createElement('div');
