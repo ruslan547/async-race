@@ -1,6 +1,7 @@
 import { PathsConstants } from '../shared/constants/paths.constants';
-import { Route, RouteCb, RoutePath, RouterProps } from '../shared/interfaces';
-
+import {
+  Route, RouteCb, RoutePath, RouterProps,
+} from '../shared/interfaces';
 
 export class Router {
   routes: Route[] = [];
@@ -11,18 +12,20 @@ export class Router {
 
   current: string | null = null;
 
+  intervalId: NodeJS.Timeout | null = null;
+
   constructor(options: RouterProps) {
     if (options.mode) this.mode = options.mode;
     if (options.root) this.root = options.root;
     this.listen();
   }
 
-  add = (path: RoutePath, cb: RouteCb) => {
+  add = (path: RoutePath, cb: RouteCb): Router => {
     this.routes.push({ path, cb });
     return this;
   };
 
-  remove = (path: RoutePath) => {
+  remove = (path: RoutePath): Router => {
     for (let i = 0; i < this.routes.length; i += 1) {
       if (this.routes[i].path === path) {
         this.routes.slice(i, 1);
@@ -32,18 +35,17 @@ export class Router {
     return this;
   };
 
-  flush = () => {
+  flush = (): Router => {
     this.routes = [];
     return this;
   };
 
-  clearSlashes = (path: RoutePath) =>
-    path
-      .toString()
-      .replace(/\/$/, '')
-      .replace(/^\//, '');
+  clearSlashes = (path: RoutePath): string => path
+    .toString()
+    .replace(/\/$/, '')
+    .replace(/^\//, '');
 
-  getFragment = () => {
+  getFragment = (): string => {
     let fragment = '';
     if (this.mode === 'history') {
       fragment = this.clearSlashes(decodeURI(window.location.pathname + window.location.search));
@@ -56,7 +58,7 @@ export class Router {
     return this.clearSlashes(fragment);
   };
 
-  navigate = (path = '') => {
+  navigate = (path = ''): Router => {
     if (this.mode === 'history') {
       window.history.pushState(null, '', this.root + this.clearSlashes(path));
     } else {
@@ -65,19 +67,19 @@ export class Router {
     return this;
   };
 
-  listen = () => {
+  listen = (): void => {
     if (typeof this.interval === 'number') {
-      clearInterval(this.interval);
+      clearInterval(this.intervalId as NodeJS.Timeout);
     }
 
-    this.interval = setInterval(this.interval as TimerHandler, 50);
+    this.intervalId = setInterval(this.interval, 50);
   };
 
-  interval: (TimerHandler | number) = () => {
+  interval = (): void => {
     if (this.current === this.getFragment()) return;
     this.current = this.getFragment();
 
-    this.routes.some(route => {
+    this.routes.some((route) => {
       const match = this.current?.match(route.path);
       if (match) {
         match.shift();
