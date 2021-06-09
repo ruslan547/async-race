@@ -24,9 +24,9 @@ export class Nav implements Component {
     const link = document.createElement('a');
 
     if (btn.id === ContentConstants.TO_GARAGE) {
-      link.href = PathsConstants.GARAGE;
+      link.href = PathsConstants.GARAGE_ROUTE;
     } else if (btn.id === ContentConstants.TO_WINNERS) {
-      link.href = PathsConstants.WINNERS;
+      link.href = PathsConstants.WINNERS_ROUTE;
     }
 
     link.click();

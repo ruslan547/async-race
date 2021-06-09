@@ -29,10 +29,10 @@ export class App implements Component {
 
   private addPathsToRouter = () => {
     this.router
-      .add(PathsConstants.WINNERS_ROUTE, () => {
+      .add(PathsConstants.WINNERS, () => {
         this.printPage(new Winners().render());
       })
-      .add(PathsConstants.GARAGE_ROUTE, () => {
+      .add('', () => {
         this.printPage(new Garage().render());
       });
   };
