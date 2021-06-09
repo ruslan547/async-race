@@ -19,7 +19,7 @@ export interface Component {
 export interface ButtonProps {
   content: string;
   id?: string;
-  type: string;
+  type?: string;
 }
 
 export interface State {
@@ -38,7 +38,7 @@ export interface State {
 export interface Car {
   name: string;
   color: string;
-  id: number;
+  id?: number;
 }
 
 export interface Winner {

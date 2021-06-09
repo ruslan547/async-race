@@ -9,7 +9,8 @@ export enum ClassesConstants {
   MAIN_BUTTON = 'main-button',
   NAV = 'nav',
   PAGE_NUMBER = 'page-number',
-  COLOR_SETTING = 'color-setting',
-  COLOR_EXAMPLE = 'color-example',
+  CAR_SETTING = 'car-setting',
+  FIELD = 'field',
   COLOR_INPUT = 'color-input',
+  CAR_UPDATE = 'car-update',
 }
