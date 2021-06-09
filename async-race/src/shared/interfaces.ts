@@ -15,3 +15,9 @@ export interface RouterProps {
 export interface Component {
   render(): HTMLElement;
 }
+
+export interface ButtonProps {
+  content: string;
+  id?: string;
+  type: string;
+}
