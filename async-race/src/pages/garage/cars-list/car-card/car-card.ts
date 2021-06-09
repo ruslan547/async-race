@@ -14,12 +14,18 @@ export class CarCard implements Component {
 
   private carSkin = new CarSkin(this.car.color).render();
 
-  constructor(private car: Car) { }
+  constructor(private car: Car) {
+    this.flagImg.src = flag;
+    this.carCard.id = car.id ? car.id.toString() : '';
+  }
+
+  private addClasses = (): void => {
+    this.carCard.classList.add(ClassesConstants.CAR_CARD);
+    this.flagImg.classList.add(ClassesConstants.FLAG_IMG);
+  };
 
   public render = (): HTMLElement => {
-    this.carCard.classList.add(ClassesConstants.CAR_CARD);
-    this.flagImg.classList.add(ClassesConstants.FLAG_IMG)
-    this.flagImg.src = flag;
+    this.addClasses();
     this.carCard.append(this.carBoard, this.flagImg, this.carSkin);
 
     return this.carCard;

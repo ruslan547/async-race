@@ -3,6 +3,7 @@ import { ClassesConstants } from '../../../shared/constants/classes.constants';
 import { ContentConstants } from '../../../shared/constants/content.constants';
 import { Car } from '../../../shared/interfaces';
 import { ApiService } from '../../../shared/services/api.service';
+import { UtilService } from '../../../shared/services/util.service';
 import { CarCreate } from '../car-create/car-create';
 
 export class CarUpdate extends CarCreate {
@@ -13,17 +14,10 @@ export class CarUpdate extends CarCreate {
   constructor() {
     super();
     this.element.classList.add(ClassesConstants.CAR_UPDATE);
-    queueMicrotask(this.disableFields);
+    this.idField.style.display = 'none';
+    this.element.append(this.idField);
+    queueMicrotask(() => UtilService.disableFields(this.element));
   }
-
-  private disableFields = () => {
-    const { children } = this.element;
-    const cb = (field: HTMLInputElement | HTMLButtonElement) => {
-      field.disabled = true;
-    };
-
-    [].forEach.call(children, cb);
-  };
 
   protected handleClick = async (): Promise<void> => {
     const id = +this.idField.value;
@@ -34,7 +28,8 @@ export class CarUpdate extends CarCreate {
     };
 
     this.clearFields();
-    this.disableFields();
+    UtilService.disableFields(this.element);
     await ApiService.updateCar(id, car);
+    UtilService.redrawGarage();
   };
 }

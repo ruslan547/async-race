@@ -59,7 +59,7 @@ export class ApiService {
       method: 'PUT',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application-json',
+        'Content-Type': 'application/json',
       },
     });
 
@@ -121,7 +121,7 @@ export class ApiService {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application-json',
+        'Content-Type': 'application/json',
       },
     });
 

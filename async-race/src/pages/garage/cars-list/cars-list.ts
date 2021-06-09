@@ -4,30 +4,48 @@ import { CarCard } from './car-card/car-card';
 import './cars-list.css';
 import { ApiService } from '../../../shared/services/api.service';
 import { StoreService } from '../../../shared/services/store.service';
+import { ContentConstants } from '../../../shared/constants/content.constants';
+import { UtilService } from '../../../shared/services/util.service';
+import { PageTitle } from '../../../shared/components/page-title/page-title';
 
 export class CarsList implements Component {
   private carsList = document.createElement('ul');
 
   private storeService = new StoreService();
 
-  private getCars = async (): Promise<void> => {
-    const state = this.storeService.getState();
-    const response = await ApiService.getCars(state.carsPage);
-
-    this.storeService.setState({ ...state, ...response });
-  }
-
   private generateList = async (): Promise<void> => {
-    await this.getCars();
+    await UtilService.getCars();
 
     const { cars } = this.storeService.getState();
     const carsArr = cars.map((car: Car) => new CarCard(car).render());
+    const curTitle = document.querySelector(`.${ClassesConstants.PAGE_TITLE}`);
+    const { carsCount } = this.storeService.getState();
+    const title = new PageTitle(ContentConstants.GARAGE, carsCount).render();
 
+    curTitle?.replaceWith(title);
     this.carsList.append(...carsArr);
   };
 
-  private handleClick = ({ target }: Event): void => {
-    console.log(target);
+  private getCarId = (elem: HTMLElement): number => {
+    while (elem.nodeName && elem.nodeName !== 'LI') {
+      elem = elem.parentNode as HTMLElement;
+    }
+
+    return +elem.id;
+  };
+
+  private handleClick = async ({ target }: Event): Promise<void> => {
+    const elem = target as HTMLElement;
+    const targetId = elem.id;
+    const carId = this.getCarId(elem);
+
+    if (targetId === ContentConstants.SELECT) {
+      const car = await ApiService.getCar(carId);
+      UtilService.fillCarUpdate(car);
+    } else if (targetId === ContentConstants.REMOVE) {
+      await ApiService.deleteCar(carId);
+      UtilService.redrawGarage();
+    }
   };
 
   public render = (): HTMLElement => {

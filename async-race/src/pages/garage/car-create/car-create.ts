@@ -53,7 +53,7 @@ export class CarCreate implements Component {
     const response = await ApiService.createCar(car);
 
     if (response && response.id) {
-      UtilService.redrawList();
+      UtilService.redrawGarage();
     }
   };
 
