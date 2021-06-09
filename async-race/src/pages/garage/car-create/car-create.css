@@ -1,13 +1,17 @@
-.color-setting {
-  display: inline-block;
+.car-setting {
+  display: flex;
+  margin-bottom: 5px;
 }
 
 .field {
   width: 156px;
   height: 24px;
-  margin-right: 2px;
+  border: none;
+  outline: none;
+  margin-right: 4px;
 }
 
 .color-input {
-  height: 24px;
+  height: 22px;
+  margin-right: 4px;
 }

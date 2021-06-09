@@ -6,10 +6,10 @@ import './button.css';
 export class Button implements Component {
   private button = document.createElement('button');
 
-  constructor({ content, id, type }: ButtonProps = { content: '', type: SettingsConstants.USUAL }) {
+  constructor({ content, id, type }: ButtonProps) {
     this.button.textContent = content;
     this.button.id = id || content;
-    this.addClasses(type);
+    this.addClasses(type || SettingsConstants.USUAL);
   }
 
   private addClasses = (type: string | undefined): void => {

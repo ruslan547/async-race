@@ -13,6 +13,7 @@ export class CarUpdate extends CarCreate {
   constructor() {
     super();
     this.element.classList.add(ClassesConstants.CAR_UPDATE);
+    queueMicrotask(this.disableFields);
   }
 
   private disableFields = () => {

@@ -3,7 +3,7 @@ import { ClassesConstants } from '../../../shared/constants/classes.constants';
 import { ContentConstants } from '../../../shared/constants/content.constants';
 import { Car, Component } from '../../../shared/interfaces';
 import { ApiService } from '../../../shared/services/api.service';
-import './car-setting.css';
+import './car-create.css';
 
 export class CarCreate implements Component {
   protected element = document.createElement('div');
@@ -46,7 +46,7 @@ export class CarCreate implements Component {
   public render = (): HTMLElement => {
     this.addClasses();
     this.btn.addEventListener('click', this.handleClick);
-    this.element.append(this.field, this.colorInput);
+    this.element.append(this.field, this.colorInput, this.btn);
 
     return this.element;
   };
