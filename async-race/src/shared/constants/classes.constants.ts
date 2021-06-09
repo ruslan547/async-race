@@ -3,4 +3,5 @@ export enum ClassesConstants {
   GARAGE = 'garage',
   WINNERS = 'winners',
   PAGE_TITLE = 'page-title',
+  BUTTON = 'button',
 }
