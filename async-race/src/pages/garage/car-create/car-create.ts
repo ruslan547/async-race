@@ -19,7 +19,7 @@ export class CarCreate implements Component {
   }
 
   private addClasses = (): void => {
-    this.element.classList.add(ClassesConstants.CAR_SETTING);
+    this.element.classList.add(ClassesConstants.CAR_CREATE);
     this.field.classList.add(ClassesConstants.FIELD);
     this.colorInput.classList.add(ClassesConstants.COLOR_INPUT);
   };

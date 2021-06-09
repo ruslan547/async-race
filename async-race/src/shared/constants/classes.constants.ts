@@ -9,7 +9,7 @@ export enum ClassesConstants {
   MAIN_BUTTON = 'main-button',
   NAV = 'nav',
   PAGE_NUMBER = 'page-number',
-  CAR_SETTING = 'car-setting',
+  CAR_CREATE = 'car-create',
   FIELD = 'field',
   COLOR_INPUT = 'color-input',
   CAR_UPDATE = 'car-update',
@@ -17,4 +17,6 @@ export enum ClassesConstants {
   RACE_BOARD = 'race-board',
   CAR_BOARD = 'car-board',
   GARAGE_BOARD = 'garage-board',
+  CAR_SETTING = 'car-setting',
+  NAME_FIELD = 'name-field',
 }

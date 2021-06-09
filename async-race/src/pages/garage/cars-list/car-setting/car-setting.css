@@ -1,0 +1,12 @@
+.car-setting {
+  width: 100%;
+  display: flex;
+}
+
+.name-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  color: var(--bright-color);
+}
