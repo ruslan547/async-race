@@ -6,4 +6,7 @@ export enum ContentConstants {
   PAGE = 'Page',
   UPDATE = 'update',
   CREATE = 'create',
+  RACE = 'race',
+  RESET = 'reset',
+  GENERATE_CARDS = 'generate cards',
 }

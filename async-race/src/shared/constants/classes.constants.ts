@@ -13,4 +13,8 @@ export enum ClassesConstants {
   FIELD = 'field',
   COLOR_INPUT = 'color-input',
   CAR_UPDATE = 'car-update',
+  GENERATE_BTN = 'generate-btn',
+  RACE_BOARD = 'race-board',
+  CAR_BOARD = 'car-board',
+  GARAGE_BOARD = 'garage-board',
 }

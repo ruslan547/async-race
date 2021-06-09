@@ -1,0 +1,7 @@
+.race-board {
+  display: flex;
+}
+
+.generate-btn {
+  flex-grow: 1;
+}
