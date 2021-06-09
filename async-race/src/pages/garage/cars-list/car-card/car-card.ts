@@ -1,5 +1,5 @@
 import { ClassesConstants } from '../../../../shared/constants/classes.constants';
-import { Component } from '../../../../shared/interfaces';
+import { Car, Component } from '../../../../shared/interfaces';
 import { CarBoard } from '../car-board/car-board';
 import './car-card.css';
 import flag from '../../../../shared/assets/img/flag.svg';
@@ -13,6 +13,8 @@ export class CarCard implements Component {
   private flagImg = document.createElement('img');
 
   private carSkin = new CarSkin('green').render();
+
+  constructor(car: Car) { }
 
   public render = (): HTMLElement => {
     this.carCard.classList.add(ClassesConstants.CAR_CARD);

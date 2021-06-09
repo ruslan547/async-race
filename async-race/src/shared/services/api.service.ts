@@ -18,12 +18,14 @@ export class ApiService {
   public static getCars = async (
     page: number,
     limit = 7,
-  ): Promise<{ items: Car[], count: string | null }> => {
+  ): Promise<{ cars: Car[] | never[], carsCount: number }> => {
     const response = await fetch(`${BASE}/${GARAGE}?${PAGE_QUERY}=${page}&${LIMIT_QUERY}=${limit}`);
+    const header = response.headers.get('X-Total-Count');
+    const carsCount = header ? parseInt(header) : 0;
 
     return {
-      items: await response.json(),
-      count: response.headers.get('X-Total-Count'),
+      cars: await response.json(),
+      carsCount,
     };
   };
 
