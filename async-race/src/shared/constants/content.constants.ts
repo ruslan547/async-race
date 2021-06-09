@@ -11,4 +11,6 @@ export enum ContentConstants {
   GENERATE_CARDS = 'generate cards',
   SELECT = 'select',
   REMOVE = 'remove',
+  PREV = 'prev',
+  NEXT = 'next',
 }

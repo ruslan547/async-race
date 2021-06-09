@@ -1,3 +1,4 @@
+import { FooterNav } from '../../shared/components/footer-nav/footer-nav';
 import { PageNumber } from '../../shared/components/page-number/page-number';
 import { PageTitle } from '../../shared/components/page-title/page-title';
 import { ClassesConstants } from '../../shared/constants/classes.constants';
@@ -18,9 +19,11 @@ export class Garage implements Component {
 
   private carsList = new CarsList().render();
 
+  private footerNav = new FooterNav().render();
+
   public render = (): HTMLElement => {
     this.garage.classList.add(ClassesConstants.GARAGE);
-    this.garage.append(this.carBoard, this.garageTitle, this.pageNumber, this.carsList);
+    this.garage.append(this.carBoard, this.garageTitle, this.pageNumber, this.carsList, this.footerNav);
 
     return this.garage;
   };
