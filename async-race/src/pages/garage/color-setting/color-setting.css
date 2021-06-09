@@ -1,0 +1,13 @@
+.color-setting {
+  display: inline-block;
+}
+
+.color-example {
+  width: 156px;
+  height: 24px;
+  margin-right: 2px;
+}
+
+.color-input {
+  height: 24px;
+}
