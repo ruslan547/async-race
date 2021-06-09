@@ -5,6 +5,7 @@ import { SettingsConstants } from '../../../shared/constants/settings.constants'
 import { Car, Component } from '../../../shared/interfaces';
 import { ApiService } from '../../../shared/services/api.service';
 import { StoreService } from '../../../shared/services/store.service';
+import { UtilService } from '../../../shared/services/util.service';
 import { CarsList } from '../cars-list/cars-list';
 import './car-create.css';
 
@@ -41,11 +42,6 @@ export class CarCreate implements Component {
     [].forEach.call(children, cb);
   };
 
-  private redrawList = (): void => {
-    const curList = document.querySelector(`.${ClassesConstants.CARS_LIST}`);
-    curList?.replaceWith(new CarsList().render());
-  };
-
   protected handleClick = async (): Promise<void> => {
     const car: Car = {
       name: this.field.value,
@@ -57,7 +53,7 @@ export class CarCreate implements Component {
     const response = await ApiService.createCar(car);
 
     if (response && response.id) {
-      this.redrawList();
+      UtilService.redrawList();
     }
   };
 
