@@ -1,0 +1,18 @@
+.engine-setting {
+  width: 100%;
+  display: flex;
+}
+
+.engine-btn {
+  cursor: pointer;
+  width: 30px;
+  height: 38px;
+  border: 1px solid var(--dark-basic-color);
+  border-radius: 4px;
+  font-size: 20px;
+  color: var(--dark-basic-color);
+  outline: none;
+  text-transform: uppercase;
+  background-color: transparent;
+  margin-right: 2px;
+}

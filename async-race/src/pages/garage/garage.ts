@@ -3,6 +3,7 @@ import { PageTitle } from '../../shared/components/page-title/page-title';
 import { ClassesConstants } from '../../shared/constants/classes.constants';
 import { ContentConstants } from '../../shared/constants/content.constants';
 import { Component } from '../../shared/interfaces';
+import { CarsList } from './cars-list/cars-list';
 import { GarageBoard } from './garage-board/garage-board';
 import './garage.css';
 
@@ -15,9 +16,11 @@ export class Garage implements Component {
 
   private pageNumber = new PageNumber(0).render();
 
+  private carsList = new CarsList().render();
+
   public render = (): HTMLElement => {
     this.garage.classList.add(ClassesConstants.GARAGE);
-    this.garage.append(this.carBoard, this.garageTitle, this.pageNumber);
+    this.garage.append(this.carBoard, this.garageTitle, this.pageNumber, this.carsList);
 
     return this.garage;
   };

@@ -19,4 +19,10 @@ export enum ClassesConstants {
   GARAGE_BOARD = 'garage-board',
   CAR_SETTING = 'car-setting',
   NAME_FIELD = 'name-field',
+  ENGINE_BTN = 'engine-btn',
+  ENGINE_SETTING = 'engine-setting',
+  CAR_CARD = 'car-card',
+  CARS_LIST = 'cars-list',
+  FLAG_IMG = 'flag-img',
+  CAR_SKIN = 'car-skin',
 }

@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="130.48129"
-   height="172.36563"
+   width="120"
+   height="60"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -81,7 +81,7 @@
          inkscape:connector-curvature="0"
          id="rect3005"
          d="m 49.13995,45.783596 c -0.109135,-1.189069 2.576668,-1.139875 2.857143,0 l 0,163.214024 c 0.02898,1.5407 -2.878174,0.98167 -2.857143,0 z"
-         style="fill:#000000;fill-opacity:1;stroke:none"
+         style="fill:red;fill-opacity:1;stroke:none"
          transform="matrix(0.99011627,-0.14024896,0.14024896,0.99011627,0,0)" />
     </g>
   </g>
