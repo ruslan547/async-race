@@ -25,7 +25,7 @@ export class CarUpdate extends CarCreate {
     [].forEach.call(children, cb);
   };
 
-  protected handleClick = (): void => {
+  protected handleClick = async (): Promise<void> => {
     const id = +this.idField.value;
     const car: Car = {
       id,
@@ -35,6 +35,6 @@ export class CarUpdate extends CarCreate {
 
     this.clearFields();
     this.disableFields();
-    ApiService.updateCar(id, car);
+    await ApiService.updateCar(id, car);
   };
 }

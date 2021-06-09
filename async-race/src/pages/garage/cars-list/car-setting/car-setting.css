@@ -5,8 +5,11 @@
 }
 
 .name-field {
+  flex-grow: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   color: var(--bright-color);
+  padding-left: 15px;
+  box-sizing: border-box;
 }

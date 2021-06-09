@@ -34,12 +34,12 @@ export class ApiService {
     return response.json();
   };
 
-  public static createCar = async (body: Car): Promise<Car> => {
+  public static createCar = async (body: Car): Promise<{ id: number }> => {
     const response = await fetch(`${BASE}/${GARAGE}`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application-json',
+        'Content-Type': 'application/json',
       },
     });
 

@@ -1,8 +1,11 @@
 import { Button } from '../../../shared/components/button/button';
 import { ClassesConstants } from '../../../shared/constants/classes.constants';
 import { ContentConstants } from '../../../shared/constants/content.constants';
+import { SettingsConstants } from '../../../shared/constants/settings.constants';
 import { Car, Component } from '../../../shared/interfaces';
 import { ApiService } from '../../../shared/services/api.service';
+import { StoreService } from '../../../shared/services/store.service';
+import { CarsList } from '../cars-list/cars-list';
 import './car-create.css';
 
 export class CarCreate implements Component {
@@ -16,6 +19,7 @@ export class CarCreate implements Component {
 
   constructor() {
     this.colorInput.type = 'color';
+    this.colorInput.value = SettingsConstants.BASE_COLOR;
   }
 
   private addClasses = (): void => {
@@ -27,20 +31,34 @@ export class CarCreate implements Component {
   protected clearFields = (): void => {
     const { children } = this.element;
     const cb = (field: HTMLInputElement) => {
-      field.value = '';
+      if (field.classList.contains(ClassesConstants.COLOR_INPUT)) {
+        field.value = SettingsConstants.BASE_COLOR;
+      } else {
+        field.value = '';
+      }
     };
 
     [].forEach.call(children, cb);
   };
 
-  protected handleClick = (): void => {
+  private redrawList = (): void => {
+    const curList = document.querySelector(`.${ClassesConstants.CARS_LIST}`);
+    curList?.replaceWith(new CarsList().render());
+  };
+
+  protected handleClick = async (): Promise<void> => {
     const car: Car = {
       name: this.field.value,
       color: this.colorInput.value,
     };
 
     this.clearFields();
-    ApiService.createCar(car);
+
+    const response = await ApiService.createCar(car);
+
+    if (response && response.id) {
+      this.redrawList();
+    }
   };
 
   public render = (): HTMLElement => {

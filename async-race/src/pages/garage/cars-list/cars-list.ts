@@ -26,9 +26,14 @@ export class CarsList implements Component {
     this.carsList.append(...carsArr);
   };
 
+  private handleClick = ({ target }: Event): void => {
+    console.log(target);
+  };
+
   public render = (): HTMLElement => {
     this.carsList.classList.add(ClassesConstants.CARS_LIST);
     this.generateList();
+    this.carsList.addEventListener('click', this.handleClick);
 
     return this.carsList;
   };
