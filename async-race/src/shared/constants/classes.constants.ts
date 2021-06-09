@@ -8,5 +8,5 @@ export enum ClassesConstants {
   USUAL_BUTTON = 'usual-button',
   MAIN_BUTTON = 'main-button',
   NAV = 'nav',
-
+  PAGE_NUMBER = 'page-number',
 }

@@ -1,9 +1,8 @@
 import { ClassesConstants } from '../../constants/classes.constants';
 import { Component } from '../../interfaces';
-import './page-title.css';
 
 export class PageTitle implements Component {
-  private pageTitle = document.createElement('h2');
+  private pageTitle = document.createElement('h1');
 
   constructor(title: string, number: number) {
     this.pageTitle.textContent = `${title} (${number})`;
