@@ -21,3 +21,28 @@ export interface ButtonProps {
   id?: string;
   type: string;
 }
+
+export interface State {
+  carsPage: number;
+  cars: Car[] | never[];
+  carsCount: number;
+  winnersPage: number;
+  winners: Winner[] | never[];
+  winnerCount: number;
+  animation: string // {};
+  view: string;
+  sortBy: null;
+  sortOrder: null;
+}
+
+export interface Car {
+  name: string;
+  color: string;
+  id: number;
+}
+
+export interface Winner {
+  id: number;
+  wins: number;
+  time: number;
+}
