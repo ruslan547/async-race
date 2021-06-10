@@ -26,4 +26,5 @@ export enum ClassesConstants {
   FLAG_IMG = 'flag-img',
   CAR_SKIN = 'car-skin',
   DISABLED = 'disabled',
+  WIN_BOARD = 'win-board',
 }

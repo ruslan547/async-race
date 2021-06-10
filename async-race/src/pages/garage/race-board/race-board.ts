@@ -2,13 +2,15 @@ import { Button } from '../../../shared/components/button/button';
 import { ClassesConstants } from '../../../shared/constants/classes.constants';
 import { ContentConstants } from '../../../shared/constants/content.constants';
 import { SettingsConstants } from '../../../shared/constants/settings.constants';
-import { Car, Component } from '../../../shared/interfaces';
+import { Car, Component, Winner } from '../../../shared/interfaces';
 import { ApiService } from '../../../shared/services/api.service';
 import { UtilService } from '../../../shared/services/util.service';
 import './race-board.css';
 
 export class RaceBoard implements Component {
   private raceBoard = document.createElement('div');
+
+  private winBoard = document.createElement('div');
 
   private raceBtn = new Button({
     content: ContentConstants.RACE,
@@ -28,6 +30,13 @@ export class RaceBoard implements Component {
     this.raceBoard.classList.add(ClassesConstants.RACE_BOARD);
     this.generateBtn.classList.add(ClassesConstants.GENERATE_BTN);
     this.resetBtn.classList.add(ClassesConstants.DISABLED);
+    this.winBoard.classList.add(ClassesConstants.WIN_BOARD);
+  };
+
+  private showWinner = ({ name, time }: Winner): void => {
+    this.winBoard.textContent = `${name} went first [${time}]`;
+    document.body.onclick = () => this.winBoard.remove();
+    document.body.append(this.winBoard);
   };
 
   private handleClick = async ({ target }: Event) => {
@@ -40,7 +49,9 @@ export class RaceBoard implements Component {
       UtilService.redrawGarage();
     } else if (elemId === ContentConstants.RACE) {
       UtilService.toggleDisabled(elem);
-      UtilService.race(UtilService.startDriving);
+
+      const winner = await UtilService.race(UtilService.startDriving);
+      this.showWinner(winner);
     } else if (elemId === ContentConstants.RESET) {
       UtilService.toggleDisabled(elem);
       await UtilService.race(UtilService.stopDriving);
