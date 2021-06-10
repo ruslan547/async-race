@@ -17,19 +17,43 @@ export class Garage implements Component {
 
   private carBoard = new GarageBoard().render();
 
-  private garageTitle = new PageTitle(ContentConstants.GARAGE, this.storeService.getState().carsCount).render();
+  private garageTitle;
 
-  private pageNumber = new PageNumber(this.storeService.getState().carsPage).render();
+  private pageNumber;
 
   private carsList = new CarsList().render();
 
   private footerNav = new FooterNav().render();
 
+  private carsNum;
+
+  private carsCount;
+
   constructor() {
-    UtilService.getCars();
+    const { carsCount, carsPage, cars } = this.storeService.getState();
+
+    this.garageTitle = new PageTitle(ContentConstants.GARAGE, carsCount).render();
+    this.pageNumber = new PageNumber(carsPage).render();
+    this.carsNum = cars.length;
+    this.carsCount = carsCount;
   }
 
+  private updateGarage = async (): Promise<void> => {
+    await UtilService.getCars();
+    const state = this.storeService.getState();
+    const { cars, carsCount, carsPage } = state;
+
+    if (cars.length === 0 && carsPage !== 1) {
+      this.storeService.setState({ ...state, carsPage: carsPage - 1 });
+    }
+
+    if (this.carsNum !== cars.length || this.carsCount !== carsCount) {
+      UtilService.redrawGarage();
+    }
+  };
+
   public render = (): HTMLElement => {
+    this.updateGarage();
     this.garage.classList.add(ClassesConstants.GARAGE);
     this.garage.append(this.carBoard, this.garageTitle, this.pageNumber, this.carsList, this.footerNav);
 

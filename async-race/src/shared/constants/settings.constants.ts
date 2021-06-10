@@ -4,3 +4,7 @@ export enum SettingsConstants {
   MAIN = 'main',
   BASE_COLOR = '#ffffff',
 }
+
+export enum SettingsNumConstants {
+  LIMIT_NUMBER = 7,
+}

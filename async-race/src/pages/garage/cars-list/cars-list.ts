@@ -18,11 +18,7 @@ export class CarsList implements Component {
 
     const { cars } = this.storeService.getState();
     const carsArr = cars.map((car: Car) => new CarCard(car).render());
-    const curTitle = document.querySelector(`.${ClassesConstants.PAGE_TITLE}`);
-    const { carsCount } = this.storeService.getState();
-    const title = new PageTitle(ContentConstants.GARAGE, carsCount).render();
 
-    curTitle?.replaceWith(title);
     this.carsList.append(...carsArr);
   };
 

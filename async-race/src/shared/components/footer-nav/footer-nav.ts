@@ -1,6 +1,6 @@
 import { ClassesConstants } from '../../constants/classes.constants';
 import { ContentConstants } from '../../constants/content.constants';
-import { SettingsConstants } from '../../constants/settings.constants';
+import { SettingsConstants, SettingsNumConstants } from '../../constants/settings.constants';
 import { Component } from '../../interfaces';
 import { StoreService } from '../../services/store.service';
 import { UtilService } from '../../services/util.service';
@@ -15,11 +15,18 @@ export class FooterNav implements Component {
 
   private nextBtn = new Button({ content: ContentConstants.NEXT, type: SettingsConstants.MAIN }).render();
 
-  constructor() {
-    if (this.storeService.getState().carsPage === 1) {
+  private disableButtons = (): void => {
+    const { carsPage, carsCount } = this.storeService.getState();
+    const page = Math.ceil(carsCount / SettingsNumConstants.LIMIT_NUMBER);
+
+    if (carsPage === 1) {
       (this.prevBtn as HTMLButtonElement).disabled = true;
     }
-  }
+
+    if (page === carsPage) {
+      (this.nextBtn as HTMLButtonElement).disabled = true;
+    }
+  };
 
   private handleClick = ({ target }: Event): void => {
     const elem = target as HTMLElement;
@@ -31,11 +38,13 @@ export class FooterNav implements Component {
     } else if (elemId === ContentConstants.NEXT) {
       this.storeService.setState({ ...state, carsPage: state.carsPage + 1 });
     }
+    console.log(this.storeService.getState())
 
     UtilService.redrawGarage();
   };
 
   public render = (): HTMLElement => {
+    this.disableButtons();
     this.footerNav.addEventListener('click', this.handleClick);
     this.footerNav.append(this.prevBtn, this.nextBtn);
 
