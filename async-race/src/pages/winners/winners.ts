@@ -35,6 +35,7 @@ export class Winners implements Component {
     this.winnersCount = winnersCount
   }
 
+  // to do delete
   private updateWinners = async (): Promise<void> => {
     await UtilService.getWinners();
     const state = this.storeService.getState();
@@ -44,13 +45,14 @@ export class Winners implements Component {
       this.storeService.setState({ ...state, winnersPage: winnersPage - 1 });
     }
 
+    // to do delete
     if (this.winnersNum !== winners.length || this.winnersCount !== winnersCount) {
       UtilService.redrawGarage();
     }
   };
 
   public render = (): HTMLElement => {
-    this.updateWinners();
+    // this.updateWinners();
     this.winners.classList.add(ClassesConstants.WINNERS);
     this.winners.append(this.winnerTitle, this.pageNumber, this.winnersTable, this.footerNav);
 

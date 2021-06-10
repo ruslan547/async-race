@@ -51,8 +51,9 @@ export class RaceBoard implements Component {
       UtilService.toggleDisabled(elem);
 
       const winner = await UtilService.race(UtilService.startDriving);
-      ApiService.saveWinner(winner);
       this.showWinner(winner);
+      await ApiService.saveWinner(winner);
+      await UtilService.getWinners();
     } else if (elemId === ContentConstants.RESET) {
       UtilService.toggleDisabled(elem);
       await UtilService.race(UtilService.stopDriving);
