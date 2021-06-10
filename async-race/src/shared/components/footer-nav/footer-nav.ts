@@ -1,4 +1,3 @@
-import { ClassesConstants } from '../../constants/classes.constants';
 import { ContentConstants } from '../../constants/content.constants';
 import { PathsConstants } from '../../constants/paths.constants';
 import { SettingsConstants, SettingsNumConstants } from '../../constants/settings.constants';
@@ -62,7 +61,7 @@ export class FooterNav implements Component {
       }
     }
 
-    UtilService.redrawGarage();
+    UtilService.redrawPage();
   };
 
   public render = (): HTMLElement => {

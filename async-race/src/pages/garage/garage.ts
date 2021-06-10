@@ -48,7 +48,7 @@ export class Garage implements Component {
     }
 
     if (this.carsNum !== cars.length || this.carsCount !== carsCount) {
-      UtilService.redrawGarage();
+      UtilService.redrawPage();
     }
   };
 

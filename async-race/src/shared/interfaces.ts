@@ -31,8 +31,8 @@ export interface State {
   winnersCount: number;
   animation: { [key: string]: { [key: string]: number } };
   view: string;
-  sortBy: null;
-  sortOrder: null;
+  sortBy: null | string;
+  sortOrder: null | string;
 }
 
 export interface Car {

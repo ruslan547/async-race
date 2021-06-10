@@ -15,4 +15,9 @@ export enum ContentConstants {
   NEXT = 'next',
   START_BTN = 'a',
   STOP_BTN = 'b',
+  NUMBER = 'Number',
+  CAR = 'Car',
+  NAME = 'Name',
+  WINS = 'Wins',
+  TIME = 'Best Time',
 }

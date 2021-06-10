@@ -30,6 +30,6 @@ export class CarUpdate extends CarCreate {
     this.clearFields();
     UtilService.toggleDisabledFields(this.element);
     await ApiService.updateCar(id, car);
-    UtilService.redrawGarage();
+    UtilService.redrawPage();
   };
 }

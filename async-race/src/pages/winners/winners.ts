@@ -47,7 +47,7 @@ export class Winners implements Component {
 
     // to do delete
     if (this.winnersNum !== winners.length || this.winnersCount !== winnersCount) {
-      UtilService.redrawGarage();
+      UtilService.redrawPage();
     }
   };
 

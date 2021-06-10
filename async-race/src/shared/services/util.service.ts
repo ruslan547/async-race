@@ -28,7 +28,7 @@ export class UtilService {
     UtilService.storeService.setState({ ...state, ...response });
   };
 
-  public static redrawGarage = (): void => {
+  public static redrawPage = (): void => {
     const appContent = document.querySelector(`.${ClassesConstants.APP_CONTENT}`);
     const page = UtilService.storeService.getState().view === PathsConstants.GARAGE
       ? new Garage().render() : new Winners().render();

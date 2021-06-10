@@ -29,4 +29,6 @@ export enum ClassesConstants {
   WIN_BOARD = 'win-board',
   T_ROW = 't-row',
   WIN_TABLE = 'win-table',
+  T_HEAD = 't-head',
+  TH_BTN = 'th-btn',
 }

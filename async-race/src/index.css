@@ -1,6 +1,11 @@
+html {
+  background-color: var(--main-color);
+}
+
 body {
   margin: 0;
   font-family: sans-serif;
+  zoom: .7;
 }
 
 .disabled {
@@ -17,5 +22,5 @@ td:nth-child(3) {
 }
 
 td {
- width: 50px;
+ width: 60px;
 }
