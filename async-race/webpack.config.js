@@ -7,7 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const baseConfig = {
   entry: './src/index.ts',
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'build/async-race'),
     filename: 'index.js',
     assetModuleFilename: 'assets/[hash][ext]',
   },

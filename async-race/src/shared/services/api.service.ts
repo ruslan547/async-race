@@ -78,6 +78,7 @@ export class ApiService {
 
   public static drive = async (id: number): Promise<{ success: boolean }> => {
     const response = await fetch(`${BASE}/${ENGINE}?${ID_QUERY}=${id}&${STATUS_QUERY}=drive`).catch();
+
     return response.status !== 200 ? { success: false } : { ...(await response.json()) };
   };
 
