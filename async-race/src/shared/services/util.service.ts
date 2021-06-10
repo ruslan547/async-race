@@ -1,10 +1,12 @@
 import { ClassesConstants } from "../constants/classes.constants";
-import { Car, State } from "../interfaces";
+import { Car, State, Winner } from "../interfaces";
 import { Garage } from '../../pages/garage/garage';
 import { StoreService } from "./store.service";
 import { ApiService } from "./api.service";
 import { ContentConstants } from "../constants/content.constants";
 import { SettingsNumConstants } from "../constants/settings.constants";
+
+type EngineResponse = { success: boolean, id: number, time: number };
 
 export class UtilService {
   private static storeService = new StoreService();
@@ -25,29 +27,20 @@ export class UtilService {
     }
   };
 
-  public static disableFields = (element: HTMLElement) => {
+  public static toggleDisabledFields = (element: HTMLElement) => {
     const { children } = element;
     const cb = (field: HTMLInputElement | HTMLButtonElement) => {
-      field.disabled = true;
-    };
-
-    [].forEach.call(children, cb);
-  };
-
-  public static activateFields = (element: HTMLElement) => {
-    const { children } = element;
-    const cb = (field: HTMLInputElement | HTMLButtonElement) => {
-      field.disabled = false;
+      UtilService.toggleDisabled(field);
     };
 
     [].forEach.call(children, cb);
   };
 
   public static fillCarUpdate = (car: Car): void => {
-    const carUpdate = document.querySelector(`.${ClassesConstants.CAR_UPDATE}`);
-    const { children } = carUpdate as HTMLElement;
+    const carUpdate = document.querySelector(`.${ClassesConstants.CAR_UPDATE}`) as HTMLElement;
+    const { children } = carUpdate;
 
-    UtilService.activateFields(carUpdate as HTMLElement);
+    UtilService.toggleDisabledFields(carUpdate);
     (children[1] as HTMLInputElement).value = car.name;
     (children[2] as HTMLInputElement).value = car.color;
 
@@ -69,8 +62,8 @@ export class UtilService {
     const letters = '0123456789ABCDEF';
     let color = '#';
 
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+    for (let i = 0; i < SettingsNumConstants.COLOR_CODE_SIGNS; i++) {
+      color += letters[Math.floor(Math.random() * SettingsNumConstants.HEX_SIGNS)];
     }
 
     return color;
@@ -128,11 +121,14 @@ export class UtilService {
     return state;
   };
 
-  public static startDriving = async (id: number): Promise<{ success: boolean, id: number, time: number }> => {
+  public static startDriving = async (id: number): Promise<EngineResponse> => {
     const startBtn = document.querySelector(`#${ContentConstants.START_BTN}-${id}`) as HTMLButtonElement;
     const stopBtn = document.querySelector(`#${ContentConstants.STOP_BTN}-${id}`) as HTMLButtonElement;
     const carSkin = document.querySelector(`#${ClassesConstants.CAR_SKIN}-${id}`) as HTMLElement;
     const flag = document.querySelector(`#${ClassesConstants.FLAG_IMG}-${id}`) as HTMLElement;
+
+    UtilService.toggleDisabled(startBtn);
+    UtilService.toggleDisabled(stopBtn);
 
     const { velocity, distance } = await ApiService.startEngine(id);
     const time = Math.round(distance / velocity);
@@ -140,15 +136,65 @@ export class UtilService {
     const state: State = UtilService.storeService.getState();
 
     state.animation[id] = UtilService.animation(carSkin, htmlDistance, time);
-    UtilService.toggleDisabled(startBtn);
-    UtilService.toggleDisabled(stopBtn);
-    UtilService.storeService.setState({ ...state });
 
     const { success } = await ApiService.drive(id);
+
     if (!success) {
-      window.cancelAnimationFrame(UtilService.storeService.getState().animation[id].id);
+      window.cancelAnimationFrame(state.animation[id].id);
     }
 
     return { success, id, time };
+  };
+
+  public static stopDriving = async (id: number) => {
+    const startBtn = document.querySelector(`#${ContentConstants.START_BTN}-${id}`) as HTMLButtonElement;
+    const stopBtn = document.querySelector(`#${ContentConstants.STOP_BTN}-${id}`) as HTMLButtonElement;
+    const carSkin = document.querySelector(`#${ClassesConstants.CAR_SKIN}-${id}`) as HTMLElement;
+    const state = UtilService.storeService.getState();
+
+    UtilService.toggleDisabled(stopBtn);
+    await ApiService.stopEngine(id);
+    UtilService.toggleDisabled(startBtn);
+    carSkin.style.transform = `translateX(0)`;
+
+    if (state.animation[id]) {
+      window.cancelAnimationFrame(state.animation[id].id);
+    }
+  };
+
+  public static raceAll = async (promises: Promise<{ success: boolean, id: number, time: number }>[], ids: number[]): Promise<Winner> => {
+    const { success, id, time } = await Promise.race(promises);
+    const state = UtilService.storeService.getState();
+
+    if (!success) {
+      const failedIndex = ids.findIndex(i => i === id);
+      const restPromises = promises.filter((_, index) => index !== failedIndex);
+      const restIds = ids.filter((_, index) => index !== failedIndex);
+
+      return UtilService.raceAll(restPromises, restIds);
+    }
+
+    return { ...state.cars.find((car: Car) => car.id === id), time: +(time / 1000).toFixed(2) } as Winner;
+  };
+
+  public static race = async (action: (id: number) => Promise<EngineResponse> | Promise<void>): Promise<Winner> => {
+    const raceBtn = document.querySelector(`#${ContentConstants.RACE}`) as HTMLButtonElement;
+    const resetBtn = document.querySelector(`#${ContentConstants.RESET}`) as HTMLButtonElement;
+
+    const { cars } = UtilService.storeService.getState();
+    const carsIds = cars.map(({ id }: Car) => id);
+    const promises = carsIds.map((id) => action(id));
+
+    if (action === UtilService.stopDriving) {
+      await Promise.all(promises as Promise<void>[]);
+      UtilService.toggleDisabled(raceBtn);
+      return {} as Winner;
+    }
+
+    const winner = await UtilService.raceAll(promises as Promise<EngineResponse>[], carsIds);
+
+    UtilService.toggleDisabled(resetBtn);
+
+    return winner;
   };
 }

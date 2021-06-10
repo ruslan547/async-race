@@ -20,11 +20,11 @@ export class FooterNav implements Component {
     const page = Math.ceil(carsCount / SettingsNumConstants.LIMIT_NUMBER);
 
     if (carsPage === 1) {
-      (this.prevBtn as HTMLButtonElement).disabled = true;
+      UtilService.toggleDisabled(this.prevBtn as HTMLButtonElement);
     }
 
     if (page === carsPage) {
-      (this.nextBtn as HTMLButtonElement).disabled = true;
+      UtilService.toggleDisabled(this.nextBtn as HTMLButtonElement);
     }
   };
 

@@ -16,7 +16,7 @@ export class CarUpdate extends CarCreate {
     this.element.classList.add(ClassesConstants.CAR_UPDATE);
     this.idField.style.display = 'none';
     this.element.append(this.idField);
-    queueMicrotask(() => UtilService.disableFields(this.element));
+    queueMicrotask(() => UtilService.toggleDisabledFields(this.element));
   }
 
   protected handleClick = async (): Promise<void> => {
@@ -28,7 +28,7 @@ export class CarUpdate extends CarCreate {
     };
 
     this.clearFields();
-    UtilService.disableFields(this.element);
+    UtilService.toggleDisabledFields(this.element);
     await ApiService.updateCar(id, car);
     UtilService.redrawGarage();
   };

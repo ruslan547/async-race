@@ -6,7 +6,6 @@ import { ApiService } from '../../../shared/services/api.service';
 import { StoreService } from '../../../shared/services/store.service';
 import { ContentConstants } from '../../../shared/constants/content.constants';
 import { UtilService } from '../../../shared/services/util.service';
-import { PageTitle } from '../../../shared/components/page-title/page-title';
 
 export class CarsList implements Component {
   private carsList = document.createElement('ul');
@@ -35,7 +34,7 @@ export class CarsList implements Component {
     const elem = target as HTMLElement;
     const targetId = elem.id;
     const carId = this.getCarId(elem);
-    console.log(targetId, `${ContentConstants.START_BTN}-${carId}`)
+
     if (targetId === ContentConstants.SELECT) {
       const car = await ApiService.getCar(carId);
       UtilService.fillCarUpdate(car);
@@ -44,6 +43,8 @@ export class CarsList implements Component {
       UtilService.redrawGarage();
     } else if (targetId === `${ContentConstants.START_BTN}-${carId}`) {
       UtilService.startDriving(carId);
+    } else if (targetId === `${ContentConstants.STOP_BTN}-${carId}`) {
+      UtilService.stopDriving(carId);
     }
   };
 

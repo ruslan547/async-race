@@ -45,5 +45,6 @@ export interface Winner {
   id: number;
   wins: number;
   time: number;
-  car?: Car;
+  color: string;
+  name: string;
 }

@@ -27,23 +27,30 @@ export class RaceBoard implements Component {
   private addClasses = (): void => {
     this.raceBoard.classList.add(ClassesConstants.RACE_BOARD);
     this.generateBtn.classList.add(ClassesConstants.GENERATE_BTN);
+    this.resetBtn.classList.add(ClassesConstants.DISABLED);
   };
 
   private handleClick = async ({ target }: Event) => {
-    const elem = target as HTMLElement;
+    const elem = target as HTMLButtonElement;
     const elemId = elem.id;
 
     if (elemId === ContentConstants.GENERATE_CARDS) {
       const cars = UtilService.generateRandomCars();
       cars.forEach(async (car: Car) => await ApiService.createCar(car));
       UtilService.redrawGarage();
+    } else if (elemId === ContentConstants.RACE) {
+      UtilService.toggleDisabled(elem);
+      UtilService.race(UtilService.startDriving);
+    } else if (elemId === ContentConstants.RESET) {
+      UtilService.toggleDisabled(elem);
+      await UtilService.race(UtilService.stopDriving);
     }
   };
 
   public render = (): HTMLElement => {
     this.addClasses();
-    this.raceBoard.append(this.raceBtn, this.resetBtn, this.generateBtn);
     this.raceBoard.addEventListener('click', this.handleClick);
+    this.raceBoard.append(this.raceBtn, this.resetBtn, this.generateBtn);
 
     return this.raceBoard;
   };

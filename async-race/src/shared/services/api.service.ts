@@ -71,7 +71,7 @@ export class ApiService {
     return response.json();
   };
 
-  public static stopEngine = async (id: number): Promise<Car> => {
+  public static stopEngine = async (id: number): Promise<{ velocity: number, distance: number }> => {
     const response = await fetch(`${BASE}/${ENGINE}?${ID_QUERY}=${id}&${STATUS_QUERY}=stopped`);
     return response.json();
   };
@@ -158,7 +158,7 @@ export class ApiService {
         id,
         wins: 1,
         time,
-      });
+      } as Winner);
     } else {
       const winner = await ApiService.getWinner(id);
 
@@ -166,7 +166,7 @@ export class ApiService {
         id,
         wins: winner.wins + 1,
         time: time < winner.time ? time : winner.time,
-      });
+      } as Winner);
     }
   };
 }
