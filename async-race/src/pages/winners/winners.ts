@@ -14,17 +14,22 @@ export class Winners implements Component {
 
   private winners = document.createElement('div');
 
-  private winnersTitle = new PageTitle(ContentConstants.WINNERS, this.storeService.getState().winnersCount).render();
+  private winnersTitle = new PageTitle(
+    ContentConstants.WINNERS,
+    this.storeService.getState().winnersCount,
+  ).render();
 
   private pageNumber;
 
-  private winnersTable = new WinnersTable().render();
+  private winnersTable;
 
-  private footerNav = new FooterNav().render();
+  private footerNav;
 
   constructor() {
     const { winnersPage } = this.storeService.getState();
     this.pageNumber = new PageNumber(winnersPage).render();
+    this.winnersTable = new WinnersTable(this.redrawPage).render();
+    this.footerNav = new FooterNav(this.redrawPage).render();
   }
 
   private updateWinners = async (): Promise<void> => {
@@ -35,10 +40,19 @@ export class Winners implements Component {
 
     if (winners.length === 0 && winnersPage !== 1) {
       this.storeService.setState({ ...state, winnersPage: winnersPage - 1 });
-      UtilService.redrawPage();
+      this.redrawPage();
     }
 
     this.winnersTitle.replaceWith(new PageTitle(ContentConstants.WINNERS, winnersCount).render());
+  };
+
+  private redrawPage = (): void => {
+    const appContent = document.querySelector(`.${ClassesConstants.APP_CONTENT}`);
+
+    if (appContent) {
+      appContent.innerHTML = '';
+      appContent.append(new Winners().render());
+    }
   };
 
   public render = (): HTMLElement => {

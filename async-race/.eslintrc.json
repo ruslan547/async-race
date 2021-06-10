@@ -28,6 +28,6 @@
     ],
     "import/prefer-default-export": "off",
     "no-param-reassign": 0,
-    "no-var-requires": false
+    "no-var-requires": 0
   }
 }

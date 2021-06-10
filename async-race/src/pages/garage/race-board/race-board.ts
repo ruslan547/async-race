@@ -26,6 +26,8 @@ export class RaceBoard implements Component {
     content: ContentConstants.GENERATE_CARDS,
   }).render();
 
+  constructor(private redrawPage: () => void) { }
+
   private addClasses = (): void => {
     this.raceBoard.classList.add(ClassesConstants.RACE_BOARD);
     this.generateBtn.classList.add(ClassesConstants.GENERATE_BTN);
@@ -45,8 +47,8 @@ export class RaceBoard implements Component {
 
     if (elemId === ContentConstants.GENERATE_CARDS) {
       const cars = UtilService.generateRandomCars();
-      cars.forEach(async (car: Car) => await ApiService.createCar(car));
-      UtilService.redrawPage();
+      cars.forEach(async (car: Car) => ApiService.createCar(car));
+      this.redrawPage();
     } else if (elemId === ContentConstants.RACE) {
       UtilService.toggleDisabled(elem);
 

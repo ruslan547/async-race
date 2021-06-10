@@ -3,7 +3,7 @@ import { PageNumber } from '../../shared/components/page-number/page-number';
 import { PageTitle } from '../../shared/components/page-title/page-title';
 import { ClassesConstants } from '../../shared/constants/classes.constants';
 import { ContentConstants } from '../../shared/constants/content.constants';
-import { Component, State } from '../../shared/interfaces';
+import { Component } from '../../shared/interfaces';
 import { StoreService } from '../../shared/services/store.service';
 import { UtilService } from '../../shared/services/util.service';
 import { CarsList } from './cars-list/cars-list';
@@ -15,19 +15,26 @@ export class Garage implements Component {
 
   private garage = document.createElement('div');
 
-  private carBoard = new GarageBoard().render();
+  private carBoard;
 
-  private garageTitle = new PageTitle(ContentConstants.GARAGE, this.storeService.getState().carsCount).render();
+  private garageTitle = new PageTitle(
+    ContentConstants.GARAGE,
+    this.storeService.getState().carsCount,
+  ).render();
 
   private pageNumber;
 
-  private carsList = new CarsList().render();
+  private carsList;
 
-  private footerNav = new FooterNav().render();
+  private footerNav;
 
   constructor() {
     const { carsPage } = this.storeService.getState();
+
+    this.carBoard = new GarageBoard(this.redrawPage).render();
     this.pageNumber = new PageNumber(carsPage).render();
+    this.carsList = new CarsList(this.redrawPage).render();
+    this.footerNav = new FooterNav(this.redrawPage).render();
   }
 
   private updateGarage = async (): Promise<void> => {
@@ -38,16 +45,31 @@ export class Garage implements Component {
 
     if (cars.length === 0 && carsPage !== 1) {
       this.storeService.setState({ ...state, carsPage: carsPage - 1 });
-      UtilService.redrawPage();
+      this.redrawPage();
     }
 
     this.garageTitle.replaceWith(new PageTitle(ContentConstants.GARAGE, carsCount).render());
   };
 
+  private redrawPage = (): void => {
+    const appContent = document.querySelector(`.${ClassesConstants.APP_CONTENT}`);
+
+    if (appContent) {
+      appContent.innerHTML = '';
+      appContent.append(new Garage().render());
+    }
+  };
+
   public render = (): HTMLElement => {
     this.updateGarage();
     this.garage.classList.add(ClassesConstants.GARAGE);
-    this.garage.append(this.carBoard, this.garageTitle, this.pageNumber, this.carsList, this.footerNav);
+    this.garage.append(
+      this.carBoard,
+      this.garageTitle,
+      this.pageNumber,
+      this.carsList,
+      this.footerNav,
+    );
 
     return this.garage;
   };

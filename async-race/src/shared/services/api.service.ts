@@ -1,5 +1,5 @@
 import { PathsConstants } from '../constants/paths.constants';
-import { Car, Winner } from '../interfaces';
+import { Car, Winner, EngineResponse } from '../interfaces';
 
 const {
   BASE,
@@ -21,7 +21,7 @@ export class ApiService {
   ): Promise<{ cars: Car[] | never[], carsCount: number }> => {
     const response = await fetch(`${BASE}/${GARAGE}?${PAGE_QUERY}=${page}&${LIMIT_QUERY}=${limit}`);
     const header = response.headers.get('X-Total-Count');
-    const carsCount = header ? parseInt(header) : 0;
+    const carsCount = header ? parseInt(header, 10) : 0;
 
     return {
       cars: await response.json(),
@@ -66,12 +66,12 @@ export class ApiService {
     return response.json();
   };
 
-  public static startEngine = async (id: number): Promise<{ velocity: number, distance: number }> => {
+  public static startEngine = async (id: number): Promise<EngineResponse> => {
     const response = await fetch(`${BASE}/${ENGINE}?${ID_QUERY}=${id}&${STATUS_QUERY}=started`);
     return response.json();
   };
 
-  public static stopEngine = async (id: number): Promise<{ velocity: number, distance: number }> => {
+  public static stopEngine = async (id: number): Promise<EngineResponse> => {
     const response = await fetch(`${BASE}/${ENGINE}?${ID_QUERY}=${id}&${STATUS_QUERY}=stopped`);
     return response.json();
   };
@@ -100,7 +100,7 @@ export class ApiService {
     const response = await fetch(url + queries);
     const items = await response.json();
     const header = response.headers.get('X-Total-Count');
-    const winnersCount = header ? parseInt(header) : 0;
+    const winnersCount = header ? parseInt(header, 10) : 0;
 
     return {
       winners: await Promise.all(
@@ -111,7 +111,9 @@ export class ApiService {
     };
   };
 
-  public static getWinner = async (id: number): Promise<{ id: number, name: string, color: string, wins: number, time: number }> => {
+  public static getWinner = async (id: number): Promise<{
+    id: number, name: string, color: string, wins: number, time: number
+  }> => {
     const response = await fetch(`${BASE}/${WINNERS}/${id}`);
     return response.json();
   };
@@ -160,17 +162,17 @@ export class ApiService {
         wins: 1,
       } as Winner);
     } else {
-      const winner = await ApiService.getWinner(id);
+      const respWinner = await ApiService.getWinner(id);
 
       await ApiService.updateWinner(id, {
         id,
         car: {
           id,
-          color: winner.color,
-          name: winner.name,
+          color: respWinner.color,
+          name: respWinner.name,
         },
-        wins: winner.wins + 1,
-        time: time < winner.time ? time : winner.time,
+        wins: respWinner.wins + 1,
+        time: time < respWinner.time ? time : respWinner.time,
       } as Winner);
     }
   };

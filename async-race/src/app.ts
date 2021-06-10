@@ -35,13 +35,13 @@ export class App implements Component {
       .add(PathsConstants.WINNERS, () => {
         const state = this.storeService.getState();
 
-        this.storeService.setState({ ...state, view: PathsConstants.WINNERS })
+        this.storeService.setState({ ...state, view: PathsConstants.WINNERS });
         this.printPage(new Winners().render());
       })
       .add('', () => {
         const state = this.storeService.getState();
 
-        this.storeService.setState({ ...state, view: PathsConstants.GARAGE })
+        this.storeService.setState({ ...state, view: PathsConstants.GARAGE });
         this.printPage(new Garage().render());
       });
   };

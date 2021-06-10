@@ -8,11 +8,13 @@ import './garage-board.css';
 export class GarageBoard implements Component {
   private carBoard = document.createElement('div');
 
-  private carCreate = new CarCreate().render();
+  private carCreate = new CarCreate(this.redrawPage).render();
 
-  private carUpdate = new CarUpdate().render();
+  private carUpdate = new CarUpdate(this.redrawPage).render();
 
-  private raceBoard = new RaceBoard().render();
+  private raceBoard = new RaceBoard(this.redrawPage).render();
+
+  constructor(private redrawPage: () => void) { }
 
   public render = (): HTMLElement => {
     this.carBoard.classList.add(ClassesConstants.GARAGE_BOARD);

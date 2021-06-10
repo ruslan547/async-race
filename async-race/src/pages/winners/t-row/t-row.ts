@@ -7,9 +7,13 @@ export class TRow implements Component {
   private tRow = document.createElement('tr');
 
   private numTd = document.createElement('td');
+
   private carTd = document.createElement('td');
+
   private nameTd = document.createElement('td');
+
   private winsTd = document.createElement('td');
+
   private timeTd = document.createElement('td');
 
   constructor({ car, wins, time }: Winner, private index: number) {
@@ -21,7 +25,7 @@ export class TRow implements Component {
   }
 
   public render = (): HTMLElement => {
-    this.tRow.classList.add(ClassesConstants.T_ROW)
+    this.tRow.classList.add(ClassesConstants.T_ROW);
     this.tRow.append(this.numTd, this.carTd, this.nameTd, this.winsTd, this.timeTd);
     return this.tRow;
   };

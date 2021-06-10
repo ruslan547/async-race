@@ -2,6 +2,8 @@ export type RoutePath = RegExp | string;
 
 export type RouteCb = () => void;
 
+export type EngineResponse = { velocity: number, distance: number };
+
 export interface Route {
   path: RoutePath;
   cb: RouteCb;

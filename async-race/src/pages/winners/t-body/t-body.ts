@@ -1,7 +1,5 @@
-import { Component } from '../../../shared/interfaces';
-import { ApiService } from '../../../shared/services/api.service';
+import { Component, Winner } from '../../../shared/interfaces';
 import { StoreService } from '../../../shared/services/store.service';
-import { Winner } from '../../../shared/interfaces';
 import { UtilService } from '../../../shared/services/util.service';
 import { TRow } from '../t-row/t-row';
 
@@ -23,5 +21,5 @@ export class TBody implements Component {
     this.fillTable();
     this.tbody.classList.add();
     return this.tbody;
-  }
+  };
 }

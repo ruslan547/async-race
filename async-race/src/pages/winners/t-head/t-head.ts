@@ -23,6 +23,8 @@ export class THead implements Component {
 
   private timeTd = document.createElement('th');
 
+  constructor(private redrawPage: () => void) { }
+
   private getRow = (): HTMLElement => {
     this.numTd.textContent = ContentConstants.NUMBER;
     this.carTd.textContent = ContentConstants.CAR;
@@ -40,14 +42,16 @@ export class THead implements Component {
     this.thead.classList.add(ClassesConstants.T_HEAD);
     this.winsTd.classList.add(ClassesConstants.TH_BTN);
     this.timeTd.classList.add(ClassesConstants.TH_BTN);
-  }
+  };
 
   private handleClick = async ({ target }: Event): Promise<void> => {
     const elem = target as HTMLElement;
     const elemId = elem.id;
     const state = this.storeService.getState();
     const { sortBy, sortOrder } = state;
-    const { SORT_BY_TIME, SORT_BY_WINS, ASC, DESC } = SettingsConstants;
+    const {
+      SORT_BY_TIME, SORT_BY_WINS, ASC, DESC,
+    } = SettingsConstants;
 
     if (elemId === ContentConstants.WINS) {
       if (sortBy === SORT_BY_WINS) {
@@ -66,7 +70,7 @@ export class THead implements Component {
     }
 
     await UtilService.getWinners();
-    UtilService.redrawPage();
+    this.redrawPage();
   };
 
   public render = (): HTMLElement => {
@@ -75,5 +79,5 @@ export class THead implements Component {
     this.thead.append(this.getRow());
 
     return this.thead;
-  }
+  };
 }

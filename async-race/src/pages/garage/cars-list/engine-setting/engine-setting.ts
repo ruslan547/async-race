@@ -25,8 +25,8 @@ export class EngineSetting implements Component {
   };
 
   private setAttributes = (): void => {
-    this.startBtn.id = `${ContentConstants.START_BTN}-${this.car.id}`
-    this.stopBtn.id = `${ContentConstants.STOP_BTN}-${this.car.id}`
+    this.startBtn.id = `${ContentConstants.START_BTN}-${this.car.id}`;
+    this.stopBtn.id = `${ContentConstants.STOP_BTN}-${this.car.id}`;
     this.stopBtn.disabled = true;
   };
 

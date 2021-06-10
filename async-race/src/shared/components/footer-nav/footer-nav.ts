@@ -11,12 +11,22 @@ export class FooterNav implements Component {
 
   private footerNav = document.createElement('div');
 
-  private prevBtn = new Button({ content: ContentConstants.PREV, type: SettingsConstants.MAIN }).render();
+  private prevBtn = new Button({
+    content: ContentConstants.PREV,
+    type: SettingsConstants.MAIN,
+  }).render();
 
-  private nextBtn = new Button({ content: ContentConstants.NEXT, type: SettingsConstants.MAIN }).render();
+  private nextBtn = new Button({
+    content: ContentConstants.NEXT,
+    type: SettingsConstants.MAIN,
+  }).render();
+
+  constructor(private redrawPage: () => void) { }
 
   private disableButtons = (): void => {
-    const { view, carsPage, carsCount, winnersPage, winnersCount } = this.storeService.getState();
+    const {
+      view, carsPage, carsCount, winnersPage, winnersCount,
+    } = this.storeService.getState();
 
     if (view === PathsConstants.GARAGE) {
       const garagePageNum = Math.ceil(carsCount / SettingsNumConstants.LIMIT_GARAGE_NUM);
@@ -61,7 +71,7 @@ export class FooterNav implements Component {
       }
     }
 
-    UtilService.redrawPage();
+    this.redrawPage();
   };
 
   public render = (): HTMLElement => {

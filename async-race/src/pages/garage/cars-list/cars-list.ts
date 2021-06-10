@@ -12,6 +12,8 @@ export class CarsList implements Component {
 
   private storeService = new StoreService();
 
+  constructor(private redrawPage: () => void) { }
+
   private generateList = async (): Promise<void> => {
     await UtilService.getCars();
 
@@ -40,7 +42,7 @@ export class CarsList implements Component {
       UtilService.fillCarUpdate(car);
     } else if (targetId === ContentConstants.REMOVE) {
       await ApiService.deleteCar(carId);
-      UtilService.redrawPage();
+      this.redrawPage();
     } else if (targetId === `${ContentConstants.START_BTN}-${carId}`) {
       UtilService.startDriving(carId);
     } else if (targetId === `${ContentConstants.STOP_BTN}-${carId}`) {
@@ -49,8 +51,8 @@ export class CarsList implements Component {
   };
 
   public render = (): HTMLElement => {
-    this.carsList.classList.add(ClassesConstants.CARS_LIST);
     this.generateList();
+    this.carsList.classList.add(ClassesConstants.CARS_LIST);
     this.carsList.addEventListener('click', this.handleClick);
 
     return this.carsList;

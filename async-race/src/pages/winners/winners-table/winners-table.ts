@@ -7,9 +7,11 @@ import './winners-table.css';
 export class WinnersTable implements Component {
   private table = document.createElement('table');
 
-  private thead = new THead().render();
+  private thead = new THead(this.redrawPage).render();
 
   private tbody = new TBody().render();
+
+  constructor(private redrawPage: () => void) { }
 
   public render = (): HTMLElement => {
     this.table.classList.add(ClassesConstants.WIN_TABLE);

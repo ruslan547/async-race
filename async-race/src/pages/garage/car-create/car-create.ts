@@ -4,9 +4,6 @@ import { ContentConstants } from '../../../shared/constants/content.constants';
 import { SettingsConstants } from '../../../shared/constants/settings.constants';
 import { Car, Component } from '../../../shared/interfaces';
 import { ApiService } from '../../../shared/services/api.service';
-import { StoreService } from '../../../shared/services/store.service';
-import { UtilService } from '../../../shared/services/util.service';
-import { CarsList } from '../cars-list/cars-list';
 import './car-create.css';
 
 export class CarCreate implements Component {
@@ -18,7 +15,7 @@ export class CarCreate implements Component {
 
   protected btn = new Button({ content: ContentConstants.CREATE }).render();
 
-  constructor() {
+  constructor(protected redrawPage: () => void) {
     this.colorInput.type = 'color';
     this.colorInput.value = SettingsConstants.BASE_COLOR;
   }
@@ -53,7 +50,7 @@ export class CarCreate implements Component {
     const response = await ApiService.createCar(car as Car);
 
     if (response && response.id) {
-      UtilService.redrawPage();
+      this.redrawPage();
     }
   };
 
