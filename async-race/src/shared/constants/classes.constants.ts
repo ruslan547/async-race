@@ -27,4 +27,6 @@ export enum ClassesConstants {
   CAR_SKIN = 'car-skin',
   DISABLED = 'disabled',
   WIN_BOARD = 'win-board',
+  T_ROW = 't-row',
+  WIN_TABLE = 'win-table',
 }

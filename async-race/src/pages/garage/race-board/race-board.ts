@@ -33,8 +33,8 @@ export class RaceBoard implements Component {
     this.winBoard.classList.add(ClassesConstants.WIN_BOARD);
   };
 
-  private showWinner = ({ name, time }: Winner): void => {
-    this.winBoard.textContent = `${name} went first [${time}]`;
+  private showWinner = ({ car, time }: Winner): void => {
+    this.winBoard.textContent = `${car.name} went first [${time}]`;
     document.body.onclick = () => this.winBoard.remove();
     document.body.append(this.winBoard);
   };
@@ -51,6 +51,7 @@ export class RaceBoard implements Component {
       UtilService.toggleDisabled(elem);
 
       const winner = await UtilService.race(UtilService.startDriving);
+      ApiService.saveWinner(winner);
       this.showWinner(winner);
     } else if (elemId === ContentConstants.RESET) {
       UtilService.toggleDisabled(elem);

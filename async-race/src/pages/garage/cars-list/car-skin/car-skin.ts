@@ -5,10 +5,13 @@ import './car-skin.css';
 export class CarSkin implements Component {
   private carSkin = document.createElement('div');
 
-  constructor(private color: string) { }
+  constructor(private color: string, private small = false) { }
 
   public render = (): HTMLElement => {
-    this.carSkin.classList.add(ClassesConstants.CAR_SKIN);
+    if (!this.small) {
+      this.carSkin.classList.add(ClassesConstants.CAR_SKIN);
+    }
+
     this.inner();
     return this.carSkin;
   };
@@ -18,7 +21,7 @@ export class CarSkin implements Component {
     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
      "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-     width="100pt" height="50pt" viewBox="0 0 1280.000000 640.000000"
+     width="${this.small ? 42 : 100}pt" height="${this.small ? 21 : 50}pt" viewBox="0 0 1280.000000 640.000000"
      preserveAspectRatio="xMidYMid meet">
     <g transform="translate(0.000000,640.000000) scale(0.100000,-0.100000)"
     fill="${this.color}" stroke="none">

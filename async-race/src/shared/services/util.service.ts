@@ -18,6 +18,14 @@ export class UtilService {
     UtilService.storeService.setState({ ...state, ...response });
   };
 
+  public static getWinners = async (): Promise<void> => {
+    const state = UtilService.storeService.getState();
+    const { winnersPage, sortBy, sortOrder } = state;
+    const response = await ApiService.getWinners(winnersPage, sortBy, sortOrder);
+
+    UtilService.storeService.setState({ ...state, ...response });
+  };
+
   public static redrawGarage = (): void => {
     const appContent = document.querySelector(`.${ClassesConstants.APP_CONTENT}`);
 
@@ -174,7 +182,7 @@ export class UtilService {
       return UtilService.raceAll(restPromises, restIds);
     }
 
-    return { ...state.cars.find((car: Car) => car.id === id), time: +(time / 1000).toFixed(2) } as Winner;
+    return { id, car: state.cars.find((car: Car) => car.id === id), time: +(time / 1000).toFixed(2) } as Winner;
   };
 
   public static race = async (action: (id: number) => Promise<EngineResponse> | Promise<void>): Promise<Winner> => {

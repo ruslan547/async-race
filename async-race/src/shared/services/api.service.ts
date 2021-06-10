@@ -90,28 +90,28 @@ export class ApiService {
   };
 
   public static getWinners = async (
-    {
-      page,
-      limit = 10,
-      sort,
-      order,
-    }: { page: number, limit: number, sort: null | string, order: null | string },
-  ): Promise<{ items: Winner[], count: string | null }> => {
+    winnersPage: number,
+    sortBy: string | null,
+    sortOrder: string | null,
+    limit = 10,
+  ): Promise<{ winners: Winner[] | never[], winnersCount: number }> => {
     const url = `${BASE}/${WINNERS}`;
-    const queries = `?${PAGE_QUERY}=${page}&${LIMIT_QUERY}=${limit}${ApiService.getSortOrder(sort, order)}`;
+    const queries = `?${PAGE_QUERY}=${winnersPage}&${LIMIT_QUERY}=${limit}${ApiService.getSortOrder(sortBy, sortOrder)}`;
     const response = await fetch(url + queries);
     const items = await response.json();
+    const header = response.headers.get('X-Total-Count');
+    const winnersCount = header ? parseInt(header) : 0;
 
     return {
-      items: await Promise.all(
+      winners: await Promise.all(
         items
           .map(async (winner: Winner) => ({ ...winner, car: await ApiService.getCar(winner.id) })),
       ),
-      count: response.headers.get('X-Total-Count'),
+      winnersCount,
     };
   };
 
-  public static getWinner = async (id: number): Promise<Winner> => {
+  public static getWinner = async (id: number): Promise<{ id: number, name: string, color: string, wins: number, time: number }> => {
     const response = await fetch(`${BASE}/${WINNERS}/${id}`);
     return response.json();
   };
@@ -141,7 +141,7 @@ export class ApiService {
       method: 'PUT',
       body: JSON.stringify(body),
       headers: {
-        'Content-Type': 'application-json',
+        'Content-Type': 'application/json',
       },
     });
 
@@ -150,20 +150,25 @@ export class ApiService {
 
   public static getWinnerStatus = async (id: number): Promise<number> => (await fetch(`${BASE}/${WINNERS}/${id}`)).status;
 
-  public static saveWinner = async ({ id, time }: Winner): Promise<void> => {
+  public static saveWinner = async (winner: Winner): Promise<void> => {
+    const { id, time } = winner;
     const winnerStatus = await ApiService.getWinnerStatus(id);
 
     if (winnerStatus === 404) {
       await ApiService.createWinner({
-        id,
+        ...winner,
         wins: 1,
-        time,
       } as Winner);
     } else {
       const winner = await ApiService.getWinner(id);
 
       await ApiService.updateWinner(id, {
         id,
+        car: {
+          id,
+          color: winner.color,
+          name: winner.name,
+        },
         wins: winner.wins + 1,
         time: time < winner.time ? time : winner.time,
       } as Winner);

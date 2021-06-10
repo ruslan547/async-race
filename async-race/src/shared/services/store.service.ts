@@ -7,7 +7,7 @@ export class StoreService {
     carsCount: 0,
     winnersPage: 1,
     winners: [],
-    winnerCount: 0,
+    winnersCount: 0,
     animation: {}, // {};
     view: 'garage',
     sortBy: null,
