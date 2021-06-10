@@ -5,6 +5,8 @@ import { StoreService } from "./store.service";
 import { ApiService } from "./api.service";
 import { ContentConstants } from "../constants/content.constants";
 import { SettingsNumConstants } from "../constants/settings.constants";
+import { PathsConstants } from "../constants/paths.constants";
+import { Winners } from "../../pages/winners/winners";
 
 type EngineResponse = { success: boolean, id: number, time: number };
 
@@ -28,10 +30,12 @@ export class UtilService {
 
   public static redrawGarage = (): void => {
     const appContent = document.querySelector(`.${ClassesConstants.APP_CONTENT}`);
+    const page = UtilService.storeService.getState().view === PathsConstants.GARAGE
+      ? new Garage().render() : new Winners().render();
 
     if (appContent) {
       appContent.innerHTML = '';
-      appContent.append(new Garage().render())
+      appContent.append(page);
     }
   };
 

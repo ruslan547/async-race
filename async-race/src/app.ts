@@ -7,8 +7,11 @@ import { Component } from './shared/interfaces';
 import { Garage } from './pages/garage/garage';
 import { Winners } from './pages/winners/winners';
 import { Nav } from './shared/components/nav/nav';
+import { StoreService } from './shared/services/store.service';
 
 export class App implements Component {
+  private storeService = new StoreService();
+
   private app = document.createElement('div');
 
   private nav = new Nav().render();
@@ -30,9 +33,15 @@ export class App implements Component {
   private addPathsToRouter = () => {
     this.router
       .add(PathsConstants.WINNERS, () => {
+        const state = this.storeService.getState();
+
+        this.storeService.setState({ ...state, view: PathsConstants.WINNERS })
         this.printPage(new Winners().render());
       })
       .add('', () => {
+        const state = this.storeService.getState();
+
+        this.storeService.setState({ ...state, view: PathsConstants.GARAGE })
         this.printPage(new Garage().render());
       });
   };

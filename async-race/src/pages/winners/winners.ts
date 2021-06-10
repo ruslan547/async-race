@@ -5,6 +5,7 @@ import { ClassesConstants } from '../../shared/constants/classes.constants';
 import { ContentConstants } from '../../shared/constants/content.constants';
 import { Component } from '../../shared/interfaces';
 import { StoreService } from '../../shared/services/store.service';
+import { UtilService } from '../../shared/services/util.service';
 import { WinnersTable } from './winners-table/winners-table';
 import './winners.css';
 
@@ -34,21 +35,22 @@ export class Winners implements Component {
     this.winnersCount = winnersCount
   }
 
-  // private updateGarage = async (): Promise<void> => {
-  //   await UtilService.getCars();
-  //   const state = this.storeService.getState();
-  //   const { cars, carsCount, carsPage } = state;
+  private updateWinners = async (): Promise<void> => {
+    await UtilService.getWinners();
+    const state = this.storeService.getState();
+    const { winners, winnersCount, winnersPage } = state;
 
-  //   if (cars.length === 0 && carsPage !== 1) {
-  //     this.storeService.setState({ ...state, carsPage: carsPage - 1 });
-  //   }
+    if (winners.length === 0 && winnersPage !== 1) {
+      this.storeService.setState({ ...state, winnersPage: winnersPage - 1 });
+    }
 
-  //   if (this.carsNum !== cars.length || this.carsCount !== carsCount) {
-  //     UtilService.redrawGarage();
-  //   }
-  // };
+    if (this.winnersNum !== winners.length || this.winnersCount !== winnersCount) {
+      UtilService.redrawGarage();
+    }
+  };
 
   public render = (): HTMLElement => {
+    this.updateWinners();
     this.winners.classList.add(ClassesConstants.WINNERS);
     this.winners.append(this.winnerTitle, this.pageNumber, this.winnersTable, this.footerNav);
 
