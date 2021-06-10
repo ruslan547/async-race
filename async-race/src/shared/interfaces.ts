@@ -29,7 +29,7 @@ export interface State {
   winnersPage: number;
   winners: Winner[] | never[];
   winnerCount: number;
-  animation: string // {};
+  animation: { [key: string]: { [key: string]: number } };
   view: string;
   sortBy: null;
   sortOrder: null;
@@ -38,7 +38,7 @@ export interface State {
 export interface Car {
   name: string;
   color: string;
-  id?: number;
+  id: number;
 }
 
 export interface Winner {

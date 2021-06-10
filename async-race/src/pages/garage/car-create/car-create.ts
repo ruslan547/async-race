@@ -43,14 +43,14 @@ export class CarCreate implements Component {
   };
 
   protected handleClick = async (): Promise<void> => {
-    const car: Car = {
+    const car = {
       name: this.field.value,
       color: this.colorInput.value,
     };
 
     this.clearFields();
 
-    const response = await ApiService.createCar(car);
+    const response = await ApiService.createCar(car as Car);
 
     if (response && response.id) {
       UtilService.redrawGarage();

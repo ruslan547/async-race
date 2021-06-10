@@ -7,4 +7,5 @@ export enum SettingsConstants {
 
 export enum SettingsNumConstants {
   LIMIT_NUMBER = 7,
+  DISTANCE_COF = 70,
 }

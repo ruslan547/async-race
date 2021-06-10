@@ -66,7 +66,7 @@ export class ApiService {
     return response.json();
   };
 
-  public static startEngine = async (id: number): Promise<Car> => {
+  public static startEngine = async (id: number): Promise<{ velocity: number, distance: number }> => {
     const response = await fetch(`${BASE}/${ENGINE}?${ID_QUERY}=${id}&${STATUS_QUERY}=started`);
     return response.json();
   };
@@ -76,7 +76,7 @@ export class ApiService {
     return response.json();
   };
 
-  public static drive = async (id: number): Promise<Car> => {
+  public static drive = async (id: number): Promise<{ success: boolean }> => {
     const response = await fetch(`${BASE}/${ENGINE}?${ID_QUERY}=${id}&${STATUS_QUERY}=drive`).catch();
     return response.status !== 200 ? { success: false } : { ...(await response.json()) };
   };

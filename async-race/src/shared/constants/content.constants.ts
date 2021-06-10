@@ -13,4 +13,6 @@ export enum ContentConstants {
   REMOVE = 'remove',
   PREV = 'prev',
   NEXT = 'next',
+  START_BTN = 'a',
+  STOP_BTN = 'b',
 }

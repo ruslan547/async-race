@@ -27,20 +27,23 @@ export class CarsList implements Component {
       elem = elem.parentNode as HTMLElement;
     }
 
-    return +elem.id;
+    const idElem = elem.id.split('-');
+    return +idElem[idElem.length - 1];
   };
 
   private handleClick = async ({ target }: Event): Promise<void> => {
     const elem = target as HTMLElement;
     const targetId = elem.id;
     const carId = this.getCarId(elem);
-
+    console.log(targetId, `${ContentConstants.START_BTN}-${carId}`)
     if (targetId === ContentConstants.SELECT) {
       const car = await ApiService.getCar(carId);
       UtilService.fillCarUpdate(car);
     } else if (targetId === ContentConstants.REMOVE) {
       await ApiService.deleteCar(carId);
       UtilService.redrawGarage();
+    } else if (targetId === `${ContentConstants.START_BTN}-${carId}`) {
+      UtilService.startDriving(carId);
     }
   };
 

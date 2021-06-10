@@ -38,7 +38,6 @@ export class FooterNav implements Component {
     } else if (elemId === ContentConstants.NEXT) {
       this.storeService.setState({ ...state, carsPage: state.carsPage + 1 });
     }
-    console.log(this.storeService.getState())
 
     UtilService.redrawGarage();
   };

@@ -9,7 +9,7 @@ export class CarBoard implements Component {
 
   private carSetting = new CarSetting(this.car).render();
 
-  private engineSetting = new EngineSetting().render();
+  private engineSetting = new EngineSetting(this.car).render();
 
   constructor(private car: Car) { }
 

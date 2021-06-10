@@ -8,7 +8,7 @@ export class StoreService {
     winnersPage: 1,
     winners: [],
     winnerCount: 0,
-    animation: '', // {};
+    animation: {}, // {};
     view: 'garage',
     sortBy: null,
     sortOrder: null,

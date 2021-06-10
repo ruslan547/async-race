@@ -16,3 +16,7 @@
   background-color: transparent;
   margin-right: 2px;
 }
+
+.disabled {
+  opacity: .3;
+}
