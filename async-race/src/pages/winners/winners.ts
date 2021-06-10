@@ -14,7 +14,7 @@ export class Winners implements Component {
 
   private winners = document.createElement('div');
 
-  private winnerTitle;
+  private winnersTitle = new PageTitle(ContentConstants.WINNERS, this.storeService.getState().winnersCount).render();
 
   private pageNumber;
 
@@ -22,39 +22,29 @@ export class Winners implements Component {
 
   private footerNav = new FooterNav().render();
 
-  private winnersNum;
-
-  private winnersCount;
-
   constructor() {
-    const { winnersCount, winnersPage, winners } = this.storeService.getState();
-
-    this.winnerTitle = new PageTitle(ContentConstants.WINNERS, winnersCount).render();
+    const { winnersPage } = this.storeService.getState();
     this.pageNumber = new PageNumber(winnersPage).render();
-    this.winnersNum = winners.length;
-    this.winnersCount = winnersCount
   }
 
-  // to do delete
   private updateWinners = async (): Promise<void> => {
     await UtilService.getWinners();
+
     const state = this.storeService.getState();
     const { winners, winnersCount, winnersPage } = state;
 
     if (winners.length === 0 && winnersPage !== 1) {
       this.storeService.setState({ ...state, winnersPage: winnersPage - 1 });
-    }
-
-    // to do delete
-    if (this.winnersNum !== winners.length || this.winnersCount !== winnersCount) {
       UtilService.redrawPage();
     }
+
+    this.winnersTitle.replaceWith(new PageTitle(ContentConstants.WINNERS, winnersCount).render());
   };
 
   public render = (): HTMLElement => {
-    // this.updateWinners();
+    this.updateWinners();
     this.winners.classList.add(ClassesConstants.WINNERS);
-    this.winners.append(this.winnerTitle, this.pageNumber, this.winnersTable, this.footerNav);
+    this.winners.append(this.winnersTitle, this.pageNumber, this.winnersTable, this.footerNav);
 
     return this.winners;
   };
