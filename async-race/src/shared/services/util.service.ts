@@ -25,10 +25,19 @@ export class UtilService {
     UtilService.storeService.setState({ ...state, ...response });
   };
 
-  public static toggleDisabledFields = (element: HTMLElement): void => {
+  public static addDisabledToFields = (element: HTMLElement): void => {
     const { children } = element;
     const cb = (field: HTMLInputElement | HTMLButtonElement) => {
-      UtilService.toggleDisabled(field);
+      UtilService.addDisabled(field);
+    };
+
+    [].forEach.call(children, cb);
+  };
+
+  public static removeDisabledToFields = (element: HTMLElement): void => {
+    const { children } = element;
+    const cb = (field: HTMLInputElement | HTMLButtonElement) => {
+      UtilService.removeDisabled(field);
     };
 
     [].forEach.call(children, cb);
@@ -40,7 +49,7 @@ export class UtilService {
     const { children } = carUpdate;
 
     if ((children[0] as HTMLInputElement).disabled) {
-      UtilService.toggleDisabledFields(carUpdate);
+      UtilService.removeDisabledToFields(carUpdate);
     }
 
     (children[0] as HTMLInputElement).value = car.name;
@@ -79,8 +88,13 @@ export class UtilService {
     color: UtilService.getRandomColor(),
   })) as Car[];
 
-  public static toggleDisabled = (elem: HTMLButtonElement | HTMLInputElement): void => {
-    elem.classList.toggle(ClassesConstants.DISABLED);
+  public static addDisabled = (elem: HTMLButtonElement | HTMLInputElement): void => {
+    elem.classList.add(ClassesConstants.DISABLED);
+    elem.disabled = elem.classList.contains(ClassesConstants.DISABLED);
+  };
+
+  public static removeDisabled = (elem: HTMLButtonElement | HTMLInputElement): void => {
+    elem.classList.remove(ClassesConstants.DISABLED);
     elem.disabled = elem.classList.contains(ClassesConstants.DISABLED);
   };
 
@@ -136,8 +150,8 @@ export class UtilService {
     const carSkin = document.querySelector(`#${ClassesConstants.CAR_SKIN}-${id}`) as HTMLElement;
     const flag = document.querySelector(`#${ClassesConstants.FLAG_IMG}-${id}`) as HTMLElement;
 
-    UtilService.toggleDisabled(startBtn);
-    UtilService.toggleDisabled(stopBtn);
+    UtilService.addDisabled(startBtn);
+    UtilService.removeDisabled(stopBtn);
 
     const { velocity, distance } = await ApiService.startEngine(id);
     const time = Math.round(distance / velocity);
@@ -163,9 +177,9 @@ export class UtilService {
     const carSkin = document.querySelector(`#${ClassesConstants.CAR_SKIN}-${id}`) as HTMLElement;
     const state = UtilService.storeService.getState();
 
-    UtilService.toggleDisabled(stopBtn);
+    UtilService.addDisabled(stopBtn);
     await ApiService.stopEngine(id);
-    UtilService.toggleDisabled(startBtn);
+    UtilService.removeDisabled(startBtn);
     carSkin.style.transform = 'translateX(0)';
 
     if (state.animation[id]) {
@@ -207,13 +221,13 @@ export class UtilService {
 
     if (action === UtilService.stopDriving) {
       await Promise.all(promises as Promise<void>[]);
-      UtilService.toggleDisabled(raceBtn);
+      UtilService.removeDisabled(raceBtn);
       return {} as Winner;
     }
 
     const winner = await UtilService.raceAll(promises as Promise<EngineResponse>[], carsIds);
 
-    UtilService.toggleDisabled(resetBtn);
+    UtilService.removeDisabled(resetBtn);
 
     return winner;
   };

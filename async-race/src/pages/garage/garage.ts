@@ -41,14 +41,12 @@ export class Garage implements Component {
     await UtilService.getCars();
 
     const state = this.storeService.getState();
-    const { cars, carsCount, carsPage } = state;
+    const { cars, carsPage } = state;
 
     if (cars.length === 0 && carsPage !== 1) {
       this.storeService.setState({ ...state, carsPage: carsPage - 1 });
       this.redrawPage();
     }
-
-    this.garageTitle.replaceWith(new PageTitle(ContentConstants.GARAGE, carsCount).render());
   };
 
   private redrawPage = (): void => {
@@ -61,6 +59,18 @@ export class Garage implements Component {
   };
 
   public render = (): HTMLElement => {
+    const prevCarsCount = this.storeService.getState().carsCount;
+
+    this.storeService.subscribe(({ carsCount }) => {
+      if (carsCount !== prevCarsCount) {
+        this.garageTitle.replaceWith(new PageTitle(
+          ContentConstants.GARAGE,
+          carsCount,
+        ).render());
+        this.footerNav.replaceWith(new FooterNav(this.redrawPage).render());
+      }
+    });
+
     this.updateGarage();
     this.garage.classList.add(ClassesConstants.GARAGE);
     this.garage.append(

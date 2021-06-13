@@ -20,12 +20,15 @@ export class StoreService {
     updateId: null,
   };
 
+  private subscribers: Array<(state: State) => void> = [];
+
   private static instance: null | StoreService = null;
 
   constructor() {
     if (!StoreService.instance) {
       StoreService.instance = this;
       StoreService.instance.state = this.state;
+      StoreService.instance.subscribers = this.subscribers;
     } else {
       return StoreService.instance;
     }
@@ -35,5 +38,10 @@ export class StoreService {
 
   public setState = (state: State): void => {
     this.state = state;
+    this.subscribers.forEach((cb) => cb(this.state));
+  };
+
+  public subscribe = (cb: (state: State) => void): void => {
+    this.subscribers.push(cb);
   };
 }

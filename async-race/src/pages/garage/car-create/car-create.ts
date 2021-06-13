@@ -1,7 +1,7 @@
 import { Button } from '../../../shared/components/button/button';
 import { ClassesConstants } from '../../../shared/constants/classes.constants';
 import { ContentConstants } from '../../../shared/constants/content.constants';
-import { SettingsConstants } from '../../../shared/constants/settings.constants';
+import { SettingsConstants, SettingsNumConstants } from '../../../shared/constants/settings.constants';
 import { Car, Component } from '../../../shared/interfaces';
 import { ApiService } from '../../../shared/services/api.service';
 import { StoreService } from '../../../shared/services/store.service';
@@ -67,6 +67,7 @@ export class CarCreate implements Component {
   };
 
   protected handleClick = async (): Promise<void> => {
+    const { cars } = this.storeService.getState();
     const car = {
       name: this.field.value,
       color: this.colorInput.value,
@@ -76,7 +77,11 @@ export class CarCreate implements Component {
 
     const response = await ApiService.createCar(car as Car);
 
-    if (response && response.id) {
+    if (
+      response
+      && response.id
+      && cars.length !== SettingsNumConstants.LIMIT_GARAGE_NUM
+    ) {
       this.redrawPage();
     }
   };

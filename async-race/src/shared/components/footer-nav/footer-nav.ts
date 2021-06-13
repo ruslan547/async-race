@@ -30,23 +30,22 @@ export class FooterNav implements Component {
 
     if (view === PathsConstants.GARAGE) {
       const garagePageNum = Math.ceil(carsCount / SettingsNumConstants.LIMIT_GARAGE_NUM);
-
       if (carsPage === 1) {
-        UtilService.toggleDisabled(this.prevBtn as HTMLButtonElement);
+        UtilService.addDisabled(this.prevBtn as HTMLButtonElement);
       }
 
       if (garagePageNum === carsPage) {
-        UtilService.toggleDisabled(this.nextBtn as HTMLButtonElement);
+        UtilService.addDisabled(this.nextBtn as HTMLButtonElement);
       }
     } else {
       const winPageNum = Math.ceil(winnersCount / SettingsNumConstants.LIMIT_WIN_NUM);
 
       if (winnersPage === 1) {
-        UtilService.toggleDisabled(this.prevBtn as HTMLButtonElement);
+        UtilService.addDisabled(this.prevBtn as HTMLButtonElement);
       }
 
       if (winPageNum === winnersPage) {
-        UtilService.toggleDisabled(this.nextBtn as HTMLButtonElement);
+        UtilService.addDisabled(this.nextBtn as HTMLButtonElement);
       }
     }
   };

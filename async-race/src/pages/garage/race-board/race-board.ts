@@ -50,14 +50,14 @@ export class RaceBoard implements Component {
       cars.forEach(async (car: Car) => ApiService.createCar(car));
       this.redrawPage();
     } else if (elemId === ContentConstants.RACE) {
-      UtilService.toggleDisabled(elem);
+      UtilService.addDisabled(elem);
 
       const winner = await UtilService.race(UtilService.startDriving);
       this.showWinner(winner);
       await ApiService.saveWinner(winner);
       await UtilService.getWinners();
     } else if (elemId === ContentConstants.RESET) {
-      UtilService.toggleDisabled(elem);
+      UtilService.addDisabled(elem);
       await UtilService.race(UtilService.stopDriving);
     }
   };

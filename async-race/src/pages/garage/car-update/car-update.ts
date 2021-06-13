@@ -18,7 +18,7 @@ export class CarUpdate extends CarCreate {
     this.colorInput.value = updateColor;
 
     if (!updateText) {
-      queueMicrotask(() => UtilService.toggleDisabledFields(this.element));
+      queueMicrotask(() => UtilService.addDisabledToFields(this.element));
     }
   }
 
@@ -40,7 +40,7 @@ export class CarUpdate extends CarCreate {
 
     if (id === null) {
       this.clearFields();
-      UtilService.toggleDisabledFields(this.element);
+      UtilService.addDisabledToFields(this.element);
       return;
     }
 
@@ -51,7 +51,7 @@ export class CarUpdate extends CarCreate {
     };
 
     this.clearFields();
-    UtilService.toggleDisabledFields(this.element);
+    UtilService.addDisabledToFields(this.element);
     await ApiService.updateCar(id, car);
     this.redrawPage();
   };
