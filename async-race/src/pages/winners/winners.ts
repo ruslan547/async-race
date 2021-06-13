@@ -36,14 +36,12 @@ export class Winners implements Component {
     await UtilService.getWinners();
 
     const state = this.storeService.getState();
-    const { winners, winnersCount, winnersPage } = state;
+    const { winners, winnersPage } = state;
 
     if (winners.length === 0 && winnersPage !== 1) {
       this.storeService.setState({ ...state, winnersPage: winnersPage - 1 });
       this.redrawPage();
     }
-
-    this.winnersTitle.replaceWith(new PageTitle(ContentConstants.WINNERS, winnersCount).render());
   };
 
   private redrawPage = (): void => {
@@ -56,6 +54,18 @@ export class Winners implements Component {
   };
 
   public render = (): HTMLElement => {
+    const prevWinnersCount = this.storeService.getState().winnersCount;
+
+    this.storeService.subscribe(({ winnersCount }) => {
+      if (winnersCount !== prevWinnersCount) {
+        this.winnersTitle.replaceWith(new PageTitle(
+          ContentConstants.GARAGE,
+          winnersCount,
+        ).render());
+        this.footerNav.replaceWith(new FooterNav(this.redrawPage).render());
+      }
+    });
+
     this.updateWinners();
     this.winners.classList.add(ClassesConstants.WINNERS);
     this.winners.append(this.winnersTitle, this.pageNumber, this.winnersTable, this.footerNav);

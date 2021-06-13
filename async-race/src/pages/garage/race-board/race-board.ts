@@ -46,8 +46,8 @@ export class RaceBoard implements Component {
     const elemId = elem.id;
 
     if (elemId === ContentConstants.GENERATE_CARDS) {
-      const cars = UtilService.generateRandomCars();
-      cars.forEach(async (car: Car) => ApiService.createCar(car));
+      const generatedCars = UtilService.generateRandomCars();
+      generatedCars.forEach(async (car: Car) => ApiService.createCar(car));
       this.redrawPage();
     } else if (elemId === ContentConstants.RACE) {
       UtilService.addDisabled(elem);
