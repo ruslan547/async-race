@@ -2,11 +2,14 @@ import { Button } from '../../../shared/components/button/button';
 import { ClassesConstants } from '../../../shared/constants/classes.constants';
 import { ContentConstants } from '../../../shared/constants/content.constants';
 import { SettingsConstants } from '../../../shared/constants/settings.constants';
-import { Car, Component } from '../../../shared/interfaces';
+import { Car, Component, State } from '../../../shared/interfaces';
 import { ApiService } from '../../../shared/services/api.service';
+import { StoreService } from '../../../shared/services/store.service';
 import './car-create.css';
 
 export class CarCreate implements Component {
+  protected storeService = new StoreService();
+
   protected element = document.createElement('div');
 
   protected field = document.createElement('input');
@@ -16,8 +19,11 @@ export class CarCreate implements Component {
   protected btn = new Button({ content: ContentConstants.CREATE }).render();
 
   constructor(protected redrawPage: () => void) {
+    const { createText, createColor } = this.storeService.getState();
+
     this.colorInput.type = 'color';
-    this.colorInput.value = SettingsConstants.BASE_COLOR;
+    this.field.value = createText;
+    this.colorInput.value = createColor;
   }
 
   private addClasses = (): void => {
@@ -27,6 +33,7 @@ export class CarCreate implements Component {
   };
 
   protected clearFields = (): void => {
+    const { getState, setState } = this.storeService;
     const { children } = this.element;
     const cb = (field: HTMLInputElement) => {
       if (field.classList.contains(ClassesConstants.COLOR_INPUT)) {
@@ -37,6 +44,26 @@ export class CarCreate implements Component {
     };
 
     [].forEach.call(children, cb);
+    setState({
+      ...getState(),
+      createText: '',
+      createColor: SettingsConstants.BASE_COLOR,
+      updateText: '',
+      updateColor: SettingsConstants.BASE_COLOR,
+    });
+  };
+
+  protected handleInput = ({ target }: Event): void => {
+    const { setState, getState } = this.storeService;
+    const elem = target as HTMLInputElement;
+
+    if (elem.type === 'text') {
+      setState({ ...getState(), createText: elem.value });
+    }
+
+    if (elem.type === 'color') {
+      setState({ ...getState(), createColor: elem.value });
+    }
   };
 
   protected handleClick = async (): Promise<void> => {
@@ -57,6 +84,7 @@ export class CarCreate implements Component {
   public render = (): HTMLElement => {
     this.addClasses();
     this.btn.addEventListener('click', this.handleClick);
+    this.element.addEventListener('input', this.handleInput);
     this.element.append(this.field, this.colorInput, this.btn);
 
     return this.element;

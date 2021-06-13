@@ -1,3 +1,4 @@
+import { SettingsConstants } from '../constants/settings.constants';
 import { State } from '../interfaces';
 
 export class StoreService {
@@ -12,6 +13,10 @@ export class StoreService {
     view: 'garage',
     sortBy: null,
     sortOrder: null,
+    createText: '',
+    updateText: '',
+    createColor: SettingsConstants.BASE_COLOR,
+    updateColor: SettingsConstants.BASE_COLOR,
   };
 
   private static instance: null | StoreService = null;

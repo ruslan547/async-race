@@ -35,16 +35,22 @@ export class UtilService {
   };
 
   public static fillCarUpdate = (car: Car): void => {
+    const { getState, setState } = UtilService.storeService;
     const carUpdate = document.querySelector(`.${ClassesConstants.CAR_UPDATE}`) as HTMLElement;
     const { children } = carUpdate;
 
-    UtilService.toggleDisabledFields(carUpdate);
+    if ((children[1] as HTMLInputElement).disabled) {
+      UtilService.toggleDisabledFields(carUpdate);
+    }
+
     (children[1] as HTMLInputElement).value = car.name;
     (children[2] as HTMLInputElement).value = car.color;
 
     if (car.id) {
       (children[0] as HTMLInputElement).value = car.id.toString();
     }
+
+    setState({ ...getState(), updateText: car.name, updateColor: car.color });
   };
 
   private static getRandomName = (): string => {

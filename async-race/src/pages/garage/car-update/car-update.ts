@@ -13,11 +13,31 @@ export class CarUpdate extends CarCreate {
 
   constructor(redrawPage: () => void) {
     super(redrawPage);
+    const { updateText, updateColor } = this.storeService.getState();
+
     this.element.classList.add(ClassesConstants.CAR_UPDATE);
     this.idField.style.display = 'none';
     this.element.append(this.idField);
-    queueMicrotask(() => UtilService.toggleDisabledFields(this.element));
+    this.field.value = updateText;
+    this.colorInput.value = updateColor;
+
+    if (!updateText) {
+      queueMicrotask(() => UtilService.toggleDisabledFields(this.element));
+    }
   }
+
+  protected handleInput = ({ target }: Event): void => {
+    const { setState, getState } = this.storeService;
+    const elem = target as HTMLInputElement;
+
+    if (elem.type === 'text') {
+      setState({ ...getState(), updateText: elem.value });
+    }
+
+    if (elem.type === 'color') {
+      setState({ ...getState(), updateColor: elem.value });
+    }
+  };
 
   protected handleClick = async (): Promise<void> => {
     const id = +this.idField.value;

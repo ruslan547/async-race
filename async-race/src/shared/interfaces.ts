@@ -35,6 +35,10 @@ export interface State {
   view: string;
   sortBy: null | string;
   sortOrder: null | string;
+  createText: string;
+  updateText: string;
+  createColor: string;
+  updateColor: string;
 }
 
 export interface Car {
