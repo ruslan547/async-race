@@ -18,6 +18,7 @@ export class StoreService {
     createColor: SettingsConstants.BASE_COLOR,
     updateColor: SettingsConstants.BASE_COLOR,
     updateId: null,
+    stoppedCars: 0,
   };
 
   private subscribers: Array<(state: State) => void> = [];

@@ -40,6 +40,7 @@ export interface State {
   createColor: string;
   updateColor: string;
   updateId: null | number;
+  stoppedCars: number;
 }
 
 export interface Car {

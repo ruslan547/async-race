@@ -1,5 +1,5 @@
 import { ClassesConstants } from '../constants/classes.constants';
-import { Car, State, Winner } from '../interfaces';
+import { Car, Winner } from '../interfaces';
 import { StoreService } from './store.service';
 import { ApiService } from './api.service';
 import { ContentConstants } from '../constants/content.constants';
@@ -64,8 +64,10 @@ export class UtilService {
   };
 
   private static getRandomName = (): string => {
-    const marks = ['BMW', 'Mercedes', 'Audi', 'Opel', 'Toyota', 'Mazda', 'Honda'];
-    const models = ['7', 'GTR', 'GT500', 'RX7', 'A4', 'Coder', 'Camry'];
+    const marks = [
+      'BMW', 'Mercedes', 'Audi', 'Opel', 'Toyota', 'Mazda', 'Honda', 'Mitsubishi', 'Porsche', 'Volkswagen',
+    ];
+    const models = ['M5', 'GTR', 'GT500', 'RX7', 'A4', 'Coder', 'Camry', 'Polo', 'Benz', 'Cayenne'];
     const mark = marks[Math.floor(Math.random() * marks.length)];
     const model = models[Math.floor(Math.random() * models.length)];
 
@@ -149,6 +151,7 @@ export class UtilService {
     const stopBtn = document.querySelector(`#${ContentConstants.STOP_BTN}-${id}`) as HTMLButtonElement;
     const carSkin = document.querySelector(`#${ClassesConstants.CAR_SKIN}-${id}`) as HTMLElement;
     const flag = document.querySelector(`#${ClassesConstants.FLAG_IMG}-${id}`) as HTMLElement;
+    const resetBtn = document.querySelector(`#${ContentConstants.RESET}`) as HTMLButtonElement;
 
     UtilService.addDisabled(startBtn);
     UtilService.removeDisabled(stopBtn);
@@ -158,14 +161,19 @@ export class UtilService {
     const htmlDistance = Math.floor(
       UtilService.getDistanceBetweenElem(carSkin, flag),
     ) + SettingsNumConstants.DISTANCE_COF;
-    const state: State = UtilService.storeService.getState();
+    const { getState, setState } = UtilService.storeService;
 
-    state.animation[id] = UtilService.animation(carSkin, htmlDistance, time);
+    getState().animation[id] = UtilService.animation(carSkin, htmlDistance, time);
 
     const { success } = await ApiService.drive(id);
 
     if (!success) {
-      window.cancelAnimationFrame(state.animation[id].id);
+      setState({ ...getState(), stoppedCars: getState().stoppedCars + 1 });
+      window.cancelAnimationFrame(getState().animation[id].id);
+
+      if (getState().stoppedCars >= getState().cars.length) {
+        UtilService.removeDisabled(resetBtn);
+      }
     }
 
     return { success, id, time };
