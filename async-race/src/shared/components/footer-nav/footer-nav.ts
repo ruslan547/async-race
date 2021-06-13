@@ -25,7 +25,13 @@ export class FooterNav implements Component {
 
   private disableButtons = (): void => {
     const {
-      view, carsPage, carsCount, winnersPage, winnersCount,
+      view,
+      carsPage,
+      carsCount,
+      winnersPage,
+      winnersCount,
+      winners,
+      cars,
     } = this.storeService.getState();
 
     if (view === PathsConstants.GARAGE) {
@@ -34,7 +40,7 @@ export class FooterNav implements Component {
         UtilService.addDisabled(this.prevBtn as HTMLButtonElement);
       }
 
-      if (garagePageNum === carsPage) {
+      if (garagePageNum === carsPage || !cars.length) {
         UtilService.addDisabled(this.nextBtn as HTMLButtonElement);
       }
     } else {
@@ -44,7 +50,7 @@ export class FooterNav implements Component {
         UtilService.addDisabled(this.prevBtn as HTMLButtonElement);
       }
 
-      if (winPageNum === winnersPage) {
+      if (winPageNum === winnersPage || !winners.length) {
         UtilService.addDisabled(this.nextBtn as HTMLButtonElement);
       }
     }

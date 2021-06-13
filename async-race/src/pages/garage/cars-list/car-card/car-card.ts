@@ -14,8 +14,7 @@ export class CarCard implements Component {
 
   private carSkin = new CarSkin(this.car.color).render();
 
-  constructor(private car: Car) {
-  }
+  constructor(private car: Car) {}
 
   private addClasses = (): void => {
     this.carCard.classList.add(ClassesConstants.CAR_CARD);

@@ -1,9 +1,6 @@
-@import url(./shared/constants/styles.constants.css);
-
 .app {
   width: 100%;
   height: 100vh;
-  background-color: var(--main-color);
   color: var(--light-color);
   padding: 10px;
   box-sizing: border-box;

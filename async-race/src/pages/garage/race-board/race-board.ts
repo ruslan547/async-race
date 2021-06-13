@@ -26,7 +26,7 @@ export class RaceBoard implements Component {
     content: ContentConstants.GENERATE_CARDS,
   }).render();
 
-  constructor(private redrawPage: () => void) { }
+  constructor(private redrawPage: () => void) {}
 
   private addClasses = (): void => {
     this.raceBoard.classList.add(ClassesConstants.RACE_BOARD);

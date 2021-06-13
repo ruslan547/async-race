@@ -5,7 +5,7 @@ import { ApiService } from './api.service';
 import { ContentConstants } from '../constants/content.constants';
 import { SettingsNumConstants } from '../constants/settings.constants';
 
-type EngineResponse = { success: boolean, id: number, time: number };
+type EngineResponse = { success: boolean; id: number; time: number };
 
 export class UtilService {
   private static storeService = new StoreService();
@@ -25,22 +25,12 @@ export class UtilService {
     UtilService.storeService.setState({ ...state, ...response });
   };
 
-  public static addDisabledToFields = (element: HTMLElement): void => {
+  public static applyFunctionToFields = (
+    element: HTMLElement,
+    fn: (field: HTMLInputElement | HTMLButtonElement) => void,
+  ): void => {
     const { children } = element;
-    const cb = (field: HTMLInputElement | HTMLButtonElement) => {
-      UtilService.addDisabled(field);
-    };
-
-    [].forEach.call(children, cb);
-  };
-
-  public static removeDisabledToFields = (element: HTMLElement): void => {
-    const { children } = element;
-    const cb = (field: HTMLInputElement | HTMLButtonElement) => {
-      UtilService.removeDisabled(field);
-    };
-
-    [].forEach.call(children, cb);
+    [].forEach.call(children, fn);
   };
 
   public static fillCarUpdate = (car: Car): void => {
@@ -49,7 +39,7 @@ export class UtilService {
     const { children } = carUpdate;
 
     if ((children[0] as HTMLInputElement).disabled) {
-      UtilService.removeDisabledToFields(carUpdate);
+      UtilService.applyFunctionToFields(carUpdate, UtilService.removeDisabled);
     }
 
     (children[0] as HTMLInputElement).value = car.name;
@@ -65,7 +55,16 @@ export class UtilService {
 
   private static getRandomName = (): string => {
     const marks = [
-      'BMW', 'Mercedes', 'Audi', 'Opel', 'Toyota', 'Mazda', 'Honda', 'Mitsubishi', 'Porsche', 'Volkswagen',
+      'BMW',
+      'Mercedes',
+      'Audi',
+      'Opel',
+      'Toyota',
+      'Mazda',
+      'Honda',
+      'Mitsubishi',
+      'Porsche',
+      'Volkswagen',
     ];
     const models = ['M5', 'GTR', 'GT500', 'RX7', 'A4', 'Coder', 'Camry', 'Polo', 'Benz', 'Cayenne'];
     const mark = marks[Math.floor(Math.random() * marks.length)];
@@ -100,7 +99,7 @@ export class UtilService {
     elem.disabled = elem.classList.contains(ClassesConstants.DISABLED);
   };
 
-  public static getPosition = (elem: HTMLElement): { x: number, y: number } => {
+  public static getPosition = (elem: HTMLElement): { x: number; y: number } => {
     const {
       top, left, width, height,
     } = elem.getBoundingClientRect();
@@ -118,11 +117,7 @@ export class UtilService {
     return Math.hypot(aPosition.x - bPosition.x, aPosition.y - bPosition.y);
   };
 
-  public static animation = (
-    car: HTMLElement,
-    distance: number,
-    animationTime: number,
-  ): { [key: string]: number } => {
+  public static animation = (car: HTMLElement, distance: number, animationTime: number): { [key: string]: number } => {
     let start = 0;
     const state: { [key: string]: number } = {};
 
@@ -158,9 +153,8 @@ export class UtilService {
 
     const { velocity, distance } = await ApiService.startEngine(id);
     const time = Math.round(distance / velocity);
-    const htmlDistance = Math.floor(
-      UtilService.getDistanceBetweenElem(carSkin, flag),
-    ) + SettingsNumConstants.DISTANCE_COF;
+    const htmlDistance = Math.floor(UtilService.getDistanceBetweenElem(carSkin, flag))
+      + SettingsNumConstants.DISTANCE_COF;
     const { getState, setState } = UtilService.storeService;
 
     getState().animation[id] = UtilService.animation(carSkin, htmlDistance, time);
@@ -196,7 +190,7 @@ export class UtilService {
   };
 
   public static raceAll = async (
-    promises: Promise<{ success: boolean, id: number, time: number }>[],
+    promises: Promise<{ success: boolean; id: number; time: number }>[],
     ids: number[],
   ): Promise<Winner> => {
     const { success, id, time } = await Promise.race(promises);
@@ -217,9 +211,7 @@ export class UtilService {
     } as Winner;
   };
 
-  public static race = async (
-    action: (id: number) => Promise<EngineResponse> | Promise<void>,
-  ): Promise<Winner> => {
+  public static race = async (action: (id: number) => Promise<EngineResponse> | Promise<void>): Promise<Winner> => {
     const raceBtn = document.querySelector(`#${ContentConstants.RACE}`) as HTMLButtonElement;
     const resetBtn = document.querySelector(`#${ContentConstants.RESET}`) as HTMLButtonElement;
 

@@ -10,7 +10,7 @@ export class EngineSetting implements Component {
 
   private stopBtn = document.createElement('button');
 
-  constructor(private car: Car) { }
+  constructor(private car: Car) {}
 
   private addClasses = (): void => {
     this.engineSetting.classList.add(ClassesConstants.ENGINE_SETTING);

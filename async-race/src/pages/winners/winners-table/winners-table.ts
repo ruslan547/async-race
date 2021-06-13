@@ -11,7 +11,7 @@ export class WinnersTable implements Component {
 
   private tbody = new TBody().render();
 
-  constructor(private redrawPage: () => void) { }
+  constructor(private redrawPage: () => void) {}
 
   public render = (): HTMLElement => {
     this.table.classList.add(ClassesConstants.WIN_TABLE);

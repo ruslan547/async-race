@@ -15,10 +15,7 @@ const {
 } = PathsConstants;
 
 export class ApiService {
-  public static getCars = async (
-    page: number,
-    limit = 7,
-  ): Promise<{ cars: Car[] | never[], carsCount: number }> => {
+  public static getCars = async (page: number, limit = 7): Promise<{ cars: Car[] | never[]; carsCount: number }> => {
     const response = await fetch(`${BASE}/${GARAGE}?${PAGE_QUERY}=${page}&${LIMIT_QUERY}=${limit}`);
     const header = response.headers.get('X-Total-Count');
     const carsCount = header ? parseInt(header, 10) : 0;
@@ -95,9 +92,12 @@ export class ApiService {
     sortBy: string | null,
     sortOrder: string | null,
     limit = 10,
-  ): Promise<{ winners: Winner[] | never[], winnersCount: number }> => {
+  ): Promise<{ winners: Winner[] | never[]; winnersCount: number }> => {
     const url = `${BASE}/${WINNERS}`;
-    const queries = `?${PAGE_QUERY}=${winnersPage}&${LIMIT_QUERY}=${limit}${ApiService.getSortOrder(sortBy, sortOrder)}`;
+    const queries = `?${PAGE_QUERY}=${winnersPage}&${LIMIT_QUERY}=${limit}${ApiService.getSortOrder(
+      sortBy,
+      sortOrder,
+    )}`;
     const response = await fetch(url + queries);
     const items = await response.json();
     const header = response.headers.get('X-Total-Count');
@@ -105,15 +105,20 @@ export class ApiService {
 
     return {
       winners: await Promise.all(
-        items
-          .map(async (winner: Winner) => ({ ...winner, car: await ApiService.getCar(winner.id) })),
+        items.map(async (winner: Winner) => ({ ...winner, car: await ApiService.getCar(winner.id) })),
       ),
       winnersCount,
     };
   };
 
-  public static getWinner = async (id: number): Promise<{
-    id: number, name: string, color: string, wins: number, time: number
+  public static getWinner = async (
+    id: number,
+  ): Promise<{
+    id: number;
+    name: string;
+    color: string;
+    wins: number;
+    time: number;
   }> => {
     const response = await fetch(`${BASE}/${WINNERS}/${id}`);
     return response.json();
@@ -151,7 +156,9 @@ export class ApiService {
     return response.json();
   };
 
-  public static getWinnerStatus = async (id: number): Promise<number> => (await fetch(`${BASE}/${WINNERS}/${id}`)).status;
+  public static getWinnerStatus = async (id: number): Promise<number> => (
+    await fetch(`${BASE}/${WINNERS}/${id}`)
+  ).status;
 
   public static saveWinner = async (winner: Winner): Promise<void> => {
     const { id, time } = winner;

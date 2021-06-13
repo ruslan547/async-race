@@ -18,7 +18,9 @@ export class CarCreate implements Component {
 
   protected btn = new Button({ content: ContentConstants.CREATE }).render();
 
-  constructor(protected redrawPage: () => void) { }
+  constructor(protected redrawPage: () => void) {
+    this.setAttributes();
+  }
 
   private setAttributes = () => {
     const { createText, createColor } = this.storeService.getState();
@@ -92,7 +94,6 @@ export class CarCreate implements Component {
 
   public render = (): HTMLElement => {
     this.addClasses();
-    this.setAttributes();
     this.btn.addEventListener('click', this.handleClick);
     this.element.addEventListener('input', this.handleInput);
     this.element.append(this.field, this.colorInput, this.btn);

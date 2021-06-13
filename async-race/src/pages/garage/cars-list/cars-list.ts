@@ -12,7 +12,7 @@ export class CarsList implements Component {
 
   private storeService = new StoreService();
 
-  constructor(private redrawPage: () => void) { }
+  constructor(private redrawPage: () => void) {}
 
   private generateList = async (): Promise<void> => {
     await UtilService.getCars();

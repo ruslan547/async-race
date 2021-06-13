@@ -13,9 +13,7 @@ export class Button implements Component {
   }
 
   private addClasses = (type: string | undefined): void => {
-    const optionClass = type === SettingsConstants.USUAL
-      ? ClassesConstants.USUAL_BUTTON
-      : ClassesConstants.MAIN_BUTTON;
+    const optionClass = type === SettingsConstants.USUAL ? ClassesConstants.USUAL_BUTTON : ClassesConstants.MAIN_BUTTON;
     this.button.classList.add(ClassesConstants.BUTTON, optionClass);
   };
 

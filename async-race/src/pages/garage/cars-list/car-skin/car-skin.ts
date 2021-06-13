@@ -5,7 +5,7 @@ import './car-skin.css';
 export class CarSkin implements Component {
   private carSkin = document.createElement('div');
 
-  constructor(private color: string, private small = false) { }
+  constructor(private color: string, private small = false) {}
 
   public render = (): HTMLElement => {
     if (!this.small) {

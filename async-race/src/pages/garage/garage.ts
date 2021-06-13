@@ -17,10 +17,7 @@ export class Garage implements Component {
 
   private carBoard;
 
-  private garageTitle = new PageTitle(
-    ContentConstants.GARAGE,
-    this.storeService.getState().carsCount,
-  ).render();
+  private garageTitle = new PageTitle(ContentConstants.GARAGE, this.storeService.getState().carsCount).render();
 
   private pageNumber;
 
@@ -59,27 +56,19 @@ export class Garage implements Component {
   };
 
   public render = (): HTMLElement => {
+    const prevCars = this.storeService.getState().cars;
     const prevCarsCount = this.storeService.getState().carsCount;
 
-    this.storeService.subscribe(({ carsCount }) => {
-      if (carsCount !== prevCarsCount) {
-        this.garageTitle.replaceWith(new PageTitle(
-          ContentConstants.GARAGE,
-          carsCount,
-        ).render());
+    this.storeService.subscribe(({ carsCount, cars }) => {
+      if (carsCount !== prevCarsCount || cars.length !== prevCars.length) {
+        this.garageTitle.replaceWith(new PageTitle(ContentConstants.GARAGE, carsCount).render());
         this.footerNav.replaceWith(new FooterNav(this.redrawPage).render());
       }
     });
 
     this.updateGarage();
     this.garage.classList.add(ClassesConstants.GARAGE);
-    this.garage.append(
-      this.carBoard,
-      this.garageTitle,
-      this.pageNumber,
-      this.carsList,
-      this.footerNav,
-    );
+    this.garage.append(this.carBoard, this.garageTitle, this.pageNumber, this.carsList, this.footerNav);
 
     return this.garage;
   };

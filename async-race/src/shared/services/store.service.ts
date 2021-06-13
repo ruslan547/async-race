@@ -1,3 +1,4 @@
+import { PathsConstants } from '../constants/paths.constants';
 import { SettingsConstants } from '../constants/settings.constants';
 import { State } from '../interfaces';
 
@@ -9,8 +10,8 @@ export class StoreService {
     winnersPage: 1,
     winners: [],
     winnersCount: 0,
-    animation: {}, // {};
-    view: 'garage',
+    animation: {},
+    view: PathsConstants.GARAGE,
     sortBy: null,
     sortOrder: null,
     createText: '',

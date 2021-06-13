@@ -17,6 +17,6 @@
   margin-right: 4px;
 }
 
-input[type="text"]::-webkit-input-placeholder {
-  color: red;
+input[type='text']::-webkit-input-placeholder {
+  color: var(--error-color);
 }

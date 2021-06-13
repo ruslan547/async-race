@@ -11,7 +11,7 @@ export class CarBoard implements Component {
 
   private engineSetting = new EngineSetting(this.car).render();
 
-  constructor(private car: Car) { }
+  constructor(private car: Car) {}
 
   public render = (): HTMLElement => {
     this.carBoard.classList.add(ClassesConstants.CAR_BOARD);

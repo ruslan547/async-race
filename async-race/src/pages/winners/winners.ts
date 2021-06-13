@@ -14,10 +14,7 @@ export class Winners implements Component {
 
   private winners = document.createElement('div');
 
-  private winnersTitle = new PageTitle(
-    ContentConstants.WINNERS,
-    this.storeService.getState().winnersCount,
-  ).render();
+  private winnersTitle = new PageTitle(ContentConstants.WINNERS, this.storeService.getState().winnersCount).render();
 
   private pageNumber;
 
@@ -58,10 +55,7 @@ export class Winners implements Component {
 
     this.storeService.subscribe(({ winnersCount }) => {
       if (winnersCount !== prevWinnersCount) {
-        this.winnersTitle.replaceWith(new PageTitle(
-          ContentConstants.GARAGE,
-          winnersCount,
-        ).render());
+        this.winnersTitle.replaceWith(new PageTitle(ContentConstants.GARAGE, winnersCount).render());
         this.footerNav.replaceWith(new FooterNav(this.redrawPage).render());
       }
     });

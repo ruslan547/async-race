@@ -14,7 +14,7 @@ export class GarageBoard implements Component {
 
   private raceBoard = new RaceBoard(this.redrawPage).render();
 
-  constructor(private redrawPage: () => void) { }
+  constructor(private redrawPage: () => void) {}
 
   public render = (): HTMLElement => {
     this.carBoard.classList.add(ClassesConstants.GARAGE_BOARD);

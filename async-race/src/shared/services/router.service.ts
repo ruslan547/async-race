@@ -1,6 +1,9 @@
 import { PathsConstants } from '../constants/paths.constants';
 import {
-  Route, RouteCb, RoutePath, RouterProps,
+  Route,
+  RouteCb,
+  RoutePath,
+  RouterProps,
 } from '../interfaces';
 
 export class Router {
@@ -40,10 +43,7 @@ export class Router {
     return this;
   };
 
-  clearSlashes = (path: RoutePath): string => path
-    .toString()
-    .replace(/\/$/, '')
-    .replace(/^\//, '');
+  clearSlashes = (path: RoutePath): string => path.toString().replace(/\/$/, '').replace(/^\//, '');
 
   getFragment = (): string => {
     let fragment = '';
