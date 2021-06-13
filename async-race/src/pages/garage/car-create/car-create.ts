@@ -2,7 +2,7 @@ import { Button } from '../../../shared/components/button/button';
 import { ClassesConstants } from '../../../shared/constants/classes.constants';
 import { ContentConstants } from '../../../shared/constants/content.constants';
 import { SettingsConstants } from '../../../shared/constants/settings.constants';
-import { Car, Component, State } from '../../../shared/interfaces';
+import { Car, Component } from '../../../shared/interfaces';
 import { ApiService } from '../../../shared/services/api.service';
 import { StoreService } from '../../../shared/services/store.service';
 import './car-create.css';

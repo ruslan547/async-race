@@ -42,6 +42,7 @@ export class CarsList implements Component {
       UtilService.fillCarUpdate(car);
     } else if (targetId === ContentConstants.REMOVE) {
       await ApiService.deleteCar(carId);
+      await ApiService.deleteWinner(carId);
       this.redrawPage();
     } else if (targetId === `${ContentConstants.START_BTN}-${carId}`) {
       UtilService.startDriving(carId);
