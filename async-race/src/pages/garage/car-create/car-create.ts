@@ -18,13 +18,17 @@ export class CarCreate implements Component {
 
   protected btn = new Button({ content: ContentConstants.CREATE }).render();
 
-  constructor(protected redrawPage: () => void) {
+  constructor(protected redrawPage: () => void) { }
+
+  private setAttributes = () => {
     const { createText, createColor } = this.storeService.getState();
 
+    this.field.type = 'text';
     this.colorInput.type = 'color';
+    this.field.required = true;
     this.field.value = createText;
     this.colorInput.value = createColor;
-  }
+  };
 
   private addClasses = (): void => {
     this.element.classList.add(ClassesConstants.CAR_CREATE);
@@ -67,6 +71,11 @@ export class CarCreate implements Component {
   };
 
   protected handleClick = async (): Promise<void> => {
+    if (!this.field.validity.valid) {
+      this.field.placeholder = 'field can not be empty';
+      return;
+    }
+
     const car = {
       name: this.field.value,
       color: this.colorInput.value,
@@ -83,6 +92,7 @@ export class CarCreate implements Component {
 
   public render = (): HTMLElement => {
     this.addClasses();
+    this.setAttributes();
     this.btn.addEventListener('click', this.handleClick);
     this.element.addEventListener('input', this.handleInput);
     this.element.append(this.field, this.colorInput, this.btn);

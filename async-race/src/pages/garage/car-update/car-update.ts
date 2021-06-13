@@ -36,6 +36,11 @@ export class CarUpdate extends CarCreate {
   };
 
   protected handleClick = async (): Promise<void> => {
+    if (!this.field.validity.valid) {
+      this.field.placeholder = 'field can not be empty';
+      return;
+    }
+
     const id = this.storeService.getState().updateId;
 
     if (id === null) {

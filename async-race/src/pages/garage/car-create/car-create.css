@@ -16,3 +16,7 @@
   height: 22px;
   margin-right: 4px;
 }
+
+input[type="text"]::-webkit-input-placeholder {
+  color: red;
+}
