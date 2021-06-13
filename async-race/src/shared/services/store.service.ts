@@ -17,6 +17,7 @@ export class StoreService {
     updateText: '',
     createColor: SettingsConstants.BASE_COLOR,
     updateColor: SettingsConstants.BASE_COLOR,
+    updateId: null,
   };
 
   private static instance: null | StoreService = null;
@@ -25,8 +26,6 @@ export class StoreService {
     if (!StoreService.instance) {
       StoreService.instance = this;
       StoreService.instance.state = this.state;
-      StoreService.instance.getState = this.getState;
-      StoreService.instance.setState = this.setState;
     } else {
       return StoreService.instance;
     }

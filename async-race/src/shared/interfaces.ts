@@ -39,6 +39,7 @@ export interface State {
   updateText: string;
   createColor: string;
   updateColor: string;
+  updateId: null | number;
 }
 
 export interface Car {

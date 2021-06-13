@@ -39,18 +39,19 @@ export class UtilService {
     const carUpdate = document.querySelector(`.${ClassesConstants.CAR_UPDATE}`) as HTMLElement;
     const { children } = carUpdate;
 
-    if ((children[1] as HTMLInputElement).disabled) {
+    if ((children[0] as HTMLInputElement).disabled) {
       UtilService.toggleDisabledFields(carUpdate);
     }
 
-    (children[1] as HTMLInputElement).value = car.name;
-    (children[2] as HTMLInputElement).value = car.color;
+    (children[0] as HTMLInputElement).value = car.name;
+    (children[1] as HTMLInputElement).value = car.color;
 
-    if (car.id) {
-      (children[0] as HTMLInputElement).value = car.id.toString();
-    }
-
-    setState({ ...getState(), updateText: car.name, updateColor: car.color });
+    setState({
+      ...getState(),
+      updateText: car.name,
+      updateColor: car.color,
+      updateId: car.id,
+    });
   };
 
   private static getRandomName = (): string => {

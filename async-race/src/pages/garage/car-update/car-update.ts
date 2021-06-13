@@ -7,8 +7,6 @@ import { UtilService } from '../../../shared/services/util.service';
 import { CarCreate } from '../car-create/car-create';
 
 export class CarUpdate extends CarCreate {
-  private idField: HTMLInputElement = document.createElement('input');
-
   protected btn = new Button({ content: ContentConstants.UPDATE }).render();
 
   constructor(redrawPage: () => void) {
@@ -16,8 +14,6 @@ export class CarUpdate extends CarCreate {
     const { updateText, updateColor } = this.storeService.getState();
 
     this.element.classList.add(ClassesConstants.CAR_UPDATE);
-    this.idField.style.display = 'none';
-    this.element.append(this.idField);
     this.field.value = updateText;
     this.colorInput.value = updateColor;
 
@@ -40,7 +36,14 @@ export class CarUpdate extends CarCreate {
   };
 
   protected handleClick = async (): Promise<void> => {
-    const id = +this.idField.value;
+    const id = this.storeService.getState().updateId;
+
+    if (id === null) {
+      this.clearFields();
+      UtilService.toggleDisabledFields(this.element);
+      return;
+    }
+
     const car: Car = {
       id,
       name: this.field.value,

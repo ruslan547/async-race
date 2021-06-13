@@ -34,6 +34,11 @@ export class CarsList implements Component {
 
   private handleClick = async ({ target }: Event): Promise<void> => {
     const elem = target as HTMLElement;
+
+    if (elem.tagName === 'UL') {
+      return;
+    }
+
     const targetId = elem.id;
     const carId = this.getCarId(elem);
 
