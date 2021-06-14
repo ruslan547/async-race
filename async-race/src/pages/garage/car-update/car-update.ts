@@ -33,11 +33,15 @@ export class CarUpdate extends CarCreate {
     if (elem.type === 'color') {
       setState({ ...getState(), updateColor: elem.value });
     }
+
+    if (document.querySelector(`.${ClassesConstants.ALERT}`)) {
+      this.alert.remove();
+    }
   };
 
   protected handleClick = async (): Promise<void> => {
     if (!this.field.validity.valid) {
-      this.field.placeholder = 'field can not be empty';
+      this.element.after(this.alert);
       return;
     }
 

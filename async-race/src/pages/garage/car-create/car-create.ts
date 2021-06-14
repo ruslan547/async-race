@@ -18,6 +18,8 @@ export class CarCreate implements Component {
 
   protected btn = new Button({ content: ContentConstants.CREATE }).render();
 
+  protected alert = document.createElement('div');
+
   constructor(protected redrawPage: () => void) {
     this.setAttributes();
   }
@@ -28,14 +30,17 @@ export class CarCreate implements Component {
     this.field.type = 'text';
     this.colorInput.type = 'color';
     this.field.required = true;
+    this.field.pattern = '[^\\s]*';
     this.field.value = createText;
     this.colorInput.value = createColor;
+    this.alert.textContent = 'field can not be empty';
   };
 
   private addClasses = (): void => {
     this.element.classList.add(ClassesConstants.CAR_CREATE);
     this.field.classList.add(ClassesConstants.FIELD);
     this.colorInput.classList.add(ClassesConstants.COLOR_INPUT);
+    this.alert.classList.add(ClassesConstants.ALERT);
   };
 
   protected clearFields = (): void => {
@@ -70,11 +75,15 @@ export class CarCreate implements Component {
     if (elem.type === 'color') {
       setState({ ...getState(), createColor: elem.value });
     }
+
+    if (document.querySelector(`.${ClassesConstants.ALERT}`)) {
+      this.alert.remove();
+    }
   };
 
   protected handleClick = async (): Promise<void> => {
     if (!this.field.validity.valid) {
-      this.field.placeholder = 'field can not be empty';
+      this.element.after(this.alert);
       return;
     }
 

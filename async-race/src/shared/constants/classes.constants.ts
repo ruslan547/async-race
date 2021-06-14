@@ -31,4 +31,5 @@ export enum ClassesConstants {
   WIN_TABLE = 'win-table',
   T_HEAD = 't-head',
   TH_BTN = 'th-btn',
+  ALERT = 'alert',
 }
