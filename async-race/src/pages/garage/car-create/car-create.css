@@ -1,0 +1,27 @@
+.car-create {
+  width: 100%;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.field {
+  width: 156px;
+  height: 24px;
+  border: none;
+  outline: none;
+  margin-right: 4px;
+}
+
+.color-input {
+  height: 22px;
+  margin-right: 4px;
+}
+
+input[type='text']::-webkit-input-placeholder {
+  color: var(--error-color);
+}
+
+.alert {
+  color: var(--error-color);
+  height: 24px;
+}

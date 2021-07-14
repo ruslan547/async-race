@@ -1,0 +1,24 @@
+@import url(./shared/constants/styles.constants.css);
+
+html {
+  background-color: var(--main-color);
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  zoom: 0.7;
+}
+
+.disabled {
+  cursor: auto;
+  opacity: 0.3;
+}
+
+td:nth-child(3) {
+  width: 200px;
+}
+
+td {
+  width: 70px;
+}

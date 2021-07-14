@@ -1,0 +1,21 @@
+.button {
+  cursor: pointer;
+  width: 76px;
+  height: 26px;
+  font-size: 10px;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.main-button {
+  background-color: var(--basic-color);
+  border-bottom: 5px solid var(--dark-basic-color);
+}
+
+.usual-button {
+  background-color: var(--usual-color);
+  border-bottom: 5px solid var(--dark-usual-color);
+}

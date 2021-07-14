@@ -1,0 +1,8 @@
+.t-head {
+  background-color: var(--dark-usual-color);
+}
+
+.th-btn:hover {
+  cursor: pointer;
+  background-color: var(--usual-color);
+}
